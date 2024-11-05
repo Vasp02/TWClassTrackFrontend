@@ -1,0 +1,81 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    margin: 0;
+}
+
+.main-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+.left-half, .right-half {
+    width: 50vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Left half styles */
+.left-half {
+    background-color: #ffffff;
+}
+
+.left-half .content-box {
+    text-align: center;
+}
+
+.left-half h2 {
+    font-size: 3em;
+    color: #333;
+    font-weight: bold;
+    letter-spacing: 0.05em; /* Adds slight spacing for a modern look */
+}
+
+/* Right half styles */
+.right-half {
+    background-color: #4caf50; /* Teal color */
+}
+
+.user-selection-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 80%;
+    max-width: 350px;
+}
+
+.user-selection-container h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #050605; /* Teal color to match the right half */
+}
+
+.user-selection-container button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 1em;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #4caf50;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-selection-container button:hover {
+    background-color: #43a047;
+}

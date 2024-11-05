@@ -1,7 +1,12 @@
+import { useState } from "react";
+
 const HomePage = () => {
+
+
+
     return (
 
-        <h3>Hello World!!! 😁</h3>
+        <></>
     );
 }
 

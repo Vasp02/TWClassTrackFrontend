@@ -1,0 +1,61 @@
+.test-page {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.button-container button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    cursor: pointer;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    z-index: 1000;
+}
+
+.form-container {
+    text-align: left;
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-container form label {
+    display: block;
+    margin-top: 10px;
+}
+
+.form-container form input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.close-button {
+    margin-top: 15px;
+    padding: 8px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
