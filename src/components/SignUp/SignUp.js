@@ -13,12 +13,12 @@ const SignUp = () => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:8080/api/students/signup', {
-                firstName,
-                lastName,
-                email,
-                password,
-                userType,
-                memberCode: '',
+                firstName : "Orez",
+                lastName : "Porumb",
+                email : "orezporumb@e-uvt.ro",
+                password : "o",
+                userType : "student",
+                memberCode: '123asd',
                 classesEnroledInto: []
             });
 
@@ -29,7 +29,7 @@ const SignUp = () => {
             }
         } catch (error) {
             console.error("Sign Up error:", error);
-            alert("An error occurred during Sign Up.");
+            alert("An error occurred during Sign Up. " + error.response.data);
         }
     };
 
