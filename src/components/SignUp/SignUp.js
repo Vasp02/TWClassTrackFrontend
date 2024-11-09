@@ -20,8 +20,8 @@ const SignUp = () => {
                 email,
                 password,
                 userType,
-                memberCode: '12345asd',
-                classesEnroledInto: [] 
+                memberCode: '',
+                classesEnroledInto: []
             });
 
             if (response.status === 201) {
@@ -32,11 +32,7 @@ const SignUp = () => {
             }
         } catch (error) {
             console.error("Sign Up error:", error);
-            if (error.response && error.response.data) {
-                alert(`Sign Up failed: ${error.response.data}`);
-            } else {
-                alert("An unexpected error occurred during Sign Up.");
-            }
+            alert("An error occurred during Sign Up.");
         }
     };
 
