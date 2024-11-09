@@ -1,34 +1,45 @@
+// src/pages/Dashboard.js
 import React from 'react';
-import './Dashboard.css'; // Import the CSS file for styling
+import './Dashboard.css';
+import Header from '../Header/Header';
+import { FaBook } from 'react-icons/fa';
 
 function Dashboard() {
+    const classes = [
+        { title: '2024/25 - Mathematics', instructor: 'Dr. Smith', dueDate: 'Assignment due: Tomorrow' },
+        { title: 'Physics', instructor: 'Dr. Adams', dueDate: 'Lab report due: Friday' },
+        { title: 'Chemistry', instructor: 'Dr. Johnson', dueDate: 'Project due: Next Monday' },
+    ];
+
     return (
         <div className="dashboard-container">
-            {/* Sidebar for Statistics */}
-            <aside className="sidebar">
-                <h3>Statistics</h3>
-                <div className="stat-item">Attendance: 85%</div>
-                <div className="stat-item">Average Grade: B+</div>
-                {/* Add more stat items as needed */}
-            </aside>
+            <Header className="header" />
 
-            {/* Main section for class cards */}
-            <main className="class-cards">
-                {/* Example class card */}
-                <div className="class-card">
-                    <h4>2024/25 - Mathematics</h4>
-                    <p>Instructor: Dr. Smith</p>
+            <div className="content">
+                <aside className="sidebar">
+                    <h3>My Classes</h3>
+                    <ul className="class-list">
+                        {classes.map((classItem, index) => (
+                            <li key={index}>
+                                <FaBook className="class-icon" />
+                                {classItem.title}
+                            </li>
+                        ))}
+                    </ul>
+                </aside>
+                
+                <div className="class-cards-container">
+                    <main className="class-cards">
+                        {classes.map((classItem, index) => (
+                            <div className="class-card" key={index}>
+                                <h4>{classItem.title}</h4>
+                                <p>Instructor: {classItem.instructor}</p>
+                                <p className="due-date">{classItem.dueDate}</p>
+                            </div>
+                        ))}
+                    </main>
                 </div>
-                <div className="class-card">
-                    <h4>Physics</h4>
-                    <p>Instructor: Dr. Adams</p>
-                </div>
-                <div className="class-card">
-                    <h4>Chemistry</h4>
-                    <p>Instructor: Dr. Johnson</p>
-                </div>
-                {/* Add more cards dynamically or as placeholders */}
-            </main>
+            </div>
         </div>
     );
 }

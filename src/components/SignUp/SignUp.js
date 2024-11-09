@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './SignUp.css';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const [userType, setUserType] = useState('');
@@ -8,6 +9,7 @@ const SignUp = () => {
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const navigate = useNavigate();
 
     const handleSignUp = async (e) => {
         e.preventDefault();
@@ -18,29 +20,32 @@ const SignUp = () => {
                 email,
                 password,
                 userType,
-                memberCode: '',
-                classesEnroledInto: []
+                memberCode: '12345asd',
+                classesEnroledInto: [] 
             });
 
             if (response.status === 201) {
                 alert("Sign Up successful! You can now log in.");
+                navigate('/login');
             } else {
                 alert("Sign Up failed. Please try again.");
             }
         } catch (error) {
             console.error("Sign Up error:", error);
-            alert("An error occurred during Sign Up.");
+            if (error.response && error.response.data) {
+                alert(`Sign Up failed: ${error.response.data}`);
+            } else {
+                alert("An unexpected error occurred during Sign Up.");
+            }
         }
     };
 
     return (
         <div className="main-container">
-            {/* Left half for branding */}
             <div className="left-half">
                 <h1>ClassTrack</h1>
             </div>
 
-            {/* Right half for Sign-Up form */}
             <div className="right-half">
                 <div className="signup-container">
                     <h2>Sign Up</h2>

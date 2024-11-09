@@ -1,4 +1,4 @@
-/* General reset and layout */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -18,7 +18,6 @@ body, html {
     height: 100vh;
 }
 
-/* Left side branding */
 .left-half {
     width: 50vw;
     background-color: #ffffff;
@@ -34,7 +33,6 @@ body, html {
     letter-spacing: 0.05em;
 }
 
-/* Right side form area */
 .right-half {
     width: 50vw;
     background-color: #4caf50;
@@ -43,7 +41,6 @@ body, html {
     justify-content: center;
 }
 
-/* Sign-Up form container */
 .signup-container {
     background-color: #fff;
     padding: 30px;
@@ -60,7 +57,6 @@ body, html {
     margin-bottom: 20px;
 }
 
-/* Form fields */
 .signup-container label {
     display: block;
     font-weight: 600;
@@ -88,7 +84,6 @@ body, html {
     box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.2);
 }
 
-/* Radio button styling */
 .radio-group {
     display: flex;
     gap: 15px;
@@ -104,7 +99,6 @@ body, html {
     color: #333;
 }
 
-/* Submit button styling */
 .signup-container button[type="submit"] {
     width: 100%;
     padding: 15px;
@@ -122,7 +116,6 @@ body, html {
     background-color: #43a047;
 }
 
-/* Mobile responsiveness */
 @media (max-width: 480px) {
     .main-container {
         flex-direction: column;

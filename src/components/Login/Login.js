@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './Login.css';
-import {baseUrl} from '../../config/axiosConfig.js';
+import { baseUrl } from '../../config/axiosConfig.js';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
-        e.preventDefault(); // Prevent form submission from reloading the page
+        e.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/api/students/login`, {
+            const response = await axios.post(`${baseUrl}/api/students/login`, {
                 email: email,
                 password: password
             });
 
             if (response.status === 200) {
                 alert("Login successful");
-                // Additional actions on successful login (e.g., redirect)
+                navigate('/dashboard');
             } else {
                 alert("Login failed. Please check your credentials.");
             }

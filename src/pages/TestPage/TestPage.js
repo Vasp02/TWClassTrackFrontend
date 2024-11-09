@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./TestPage.css"; // Create this CSS file for styling
+import "./TestPage.css";
 import RoundButton from "../../components/RoundButton/RoundButton";
 import PlusIcon from "../../icons/IconComponents/PlusIcon";
 import SignUpLoginMenu from "../../components/SignUp-Login-Menu/SignUpLoginMenu";
