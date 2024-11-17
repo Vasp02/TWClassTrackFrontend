@@ -13,14 +13,22 @@ const SignUp = () => {
 
     const handleSignUp = async (e) => {
         e.preventDefault();
+
+        if (!userType) {
+            alert("Please select a user type (Student, Teacher, or Parent).");
+            return;
+        }
+
+        const signupUrl = `http://localhost:8080/api/${userType === 'teacher' ? 'professors' : userType === 'student' ? 'students' : 'parents'}/signup`;
+
         try {
-            const response = await axios.post('http://localhost:8080/api/students/signup', {
+            const response = await axios.post(signupUrl, {
                 firstName,
                 lastName,
                 email,
                 password,
                 userType,
-                memberCode: '',
+                memberCode: '12346',
                 classesEnroledInto: []
             });
 
