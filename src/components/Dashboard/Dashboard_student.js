@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Dashboard_student.css';
 import Header from '../Header/Header';
-import { FaBook } from 'react-icons/fa';
+//import { FaBook } from 'react-icons/fa';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -54,7 +54,7 @@ function Dashboard() {
                     <ul className="class-list">
                         {classes.map((classItem) => (
                             <li key={classItem.id} onClick={() => handleClassClick(classItem.id)}>
-                                <FaBook className="class-icon" />
+                                {/* <FaBook className="class-icon" /> */}
                                 {classItem.title}
                             </li>
                         ))}

@@ -76,7 +76,7 @@
 import React, { useState, useEffect } from 'react';
 import './Dashboard_professor.css';
 import Header from '../Header/Header';
-import { FaChalkboardTeacher } from 'react-icons/fa';
+// import { FaChalkboardTeacher } from 'react-icons/fa';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -128,7 +128,7 @@ function Dashboard_professor() {
                     <ul className="class-list">
                         {classes.map((classItem) => (
                             <li key={classItem.id} onClick={() => handleClassClick(classItem.id)}>
-                                <FaChalkboardTeacher className="class-icon" />
+                                {/* <FaChalkboardTeacher className="class-icon" /> */}
                                 {classItem.title}
                             </li>
                         ))}
