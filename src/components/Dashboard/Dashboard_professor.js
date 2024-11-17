@@ -71,12 +71,10 @@
 //         </div>
 //     );
 // }
-
-// export default Dashboard_professor;
 import React, { useState, useEffect } from 'react';
 import './Dashboard_professor.css';
 import Header from '../Header/Header';
-// import { FaChalkboardTeacher } from 'react-icons/fa';
+import { FaChalkboardTeacher } from 'react-icons/fa';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -118,6 +116,10 @@ function Dashboard_professor() {
         navigate(`/class/${classId}`);
     };
 
+    const handleCreateClassroom = () => {
+        navigate('/create-classroom'); // Navigate to the classroom creation page
+    };
+
     return (
         <div className="dashboard-container">
             <Header userData={userData} />
@@ -125,10 +127,13 @@ function Dashboard_professor() {
             <div className="content">
                 <aside className="sidebar">
                     <h3>My Classes</h3>
+                    <button className="create-classroom-button" onClick={handleCreateClassroom}>
+                        Create Classroom
+                    </button>
                     <ul className="class-list">
                         {classes.map((classItem) => (
                             <li key={classItem.id} onClick={() => handleClassClick(classItem.id)}>
-                                {/* <FaChalkboardTeacher className="class-icon" /> */}
+                                <FaChalkboardTeacher className="class-icon" />
                                 {classItem.title}
                             </li>
                         ))}
@@ -152,4 +157,5 @@ function Dashboard_professor() {
 }
 
 export default Dashboard_professor;
+
 

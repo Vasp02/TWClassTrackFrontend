@@ -92,3 +92,21 @@
     color: #666;
     font-size: 0.9em;
 }
+
+.create-classroom-button {
+    display: block; /* Ensures the button is visible */
+    width: 100%; /* Make it span the sidebar width */
+    margin-bottom: 20px; /* Add spacing below the button */
+    padding: 10px; /* Add some padding for better clickability */
+    background-color: #4CAF50; /* Match the header color */
+    color: #fff; /* White text */
+    font-size: 1em; /* Maintain consistency with sidebar text */
+    border: none; /* Remove default borders */
+    border-radius: 5px; /* Add rounded corners */
+    cursor: pointer; /* Show a pointer cursor on hover */
+    text-align: center; /* Center the text */
+}
+
+.create-classroom-button:hover {
+    background-color: #45a049; /* Slightly darker green on hover */
+}

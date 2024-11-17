@@ -11,6 +11,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import SignUpLoginMenu from './components/SignUp-Login-Menu/SignUpLoginMenu';
 import ClassPage_professor from './components/ClassPage/ClassPage_student';
 import ClassPage_student from './components/ClassPage/ClassPage_student';
+import Create_Classroom from './components/Create_Classroom/Create_Classroom';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/dashboard/student" element={<Dashboard_student />} />
           <Route path="/dashboard/professor" element={<Dashboard_professor />} />
+          <Route path="/create-classroom" element={<Create_Classroom />} />
           <Route 
               path="/class/:id" 
               element={userType === 'professor' ? <ClassPage_professor /> : <ClassPage_student />} 
