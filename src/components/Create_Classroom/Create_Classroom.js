@@ -20,14 +20,7 @@ function Create_Classroom() {
             return;
         }
 
-        // const classroomData = {
-        //     name: className,
-        //     professor: 0, // Placeholder, backend assigns this
-        //     studentList: [], // Empty student list initially
-        //     inviteCode: "" // Backend generates this
-        // };
-
-        //console.log("classroomData", classroomData);
+        
         console.log("classname", className);
         try {
             const response = await axios.post(
