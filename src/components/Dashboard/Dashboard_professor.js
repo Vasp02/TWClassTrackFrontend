@@ -80,6 +80,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Dashboard_professor() {
     const [userData, setUserData] = useState(null);
+    const [classes, setClasses] = useState([]); // State for storing classrooms
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -89,6 +90,7 @@ function Dashboard_professor() {
         console.log("Retrieved token:", token);
 
         if (token) {
+            // Validate token and fetch professor info
             axios.get('http://localhost:8080/api/professors/token/validate', {
                 headers: { Authorization: `Bearer ${token}` }
             })
@@ -98,6 +100,9 @@ function Dashboard_professor() {
                 if (response.status === 200 && response.data) {
                     setUserData(response.data); // Store professor info in state
                     console.log("Professor data:", response.data);
+
+                    // Fetch classrooms for the professor
+                    fetchClassrooms(token);
                 }
             })
             .catch(error => {
@@ -106,11 +111,23 @@ function Dashboard_professor() {
         }
     }, []);
 
-    const classes = [
-        { id: 1, title: '2024/25 - Advanced Mathematics', studentsEnrolled: 25, nextEvent: 'Quiz: Tomorrow' },
-        { id: 2, title: 'Physics 101', studentsEnrolled: 30, nextEvent: 'Lab demo: Friday' },
-        { id: 3, title: 'Chemistry', studentsEnrolled: 20, nextEvent: 'Assignment review: Next Monday' },
-    ];
+    const fetchClassrooms = (token) => {
+        axios.get('http://localhost:8080/api/professors/classrooms', {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        .then(response => {
+            if (response.status === 200 && response.data) {
+                setClasses(response.data); // Store classrooms in state
+                console.log("Classrooms data:", response.data);
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching classrooms:", error);
+        });
+
+        
+
+    };
 
     const handleClassClick = (classId) => {
         navigate(`/class/${classId}`);
@@ -157,5 +174,4 @@ function Dashboard_professor() {
 }
 
 export default Dashboard_professor;
-
 

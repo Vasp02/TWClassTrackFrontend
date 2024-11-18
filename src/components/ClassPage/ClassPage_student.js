@@ -15,7 +15,7 @@ function ClassPage() {
     ];  
 
     const messages = [
-        { date: '2024-10-05', message: 'impuscate in cap tinere' },
+        { date: '2024-10-05', message: 'Nice work!' },
         { date: '2024-10-10', message: 'Good job!' },
     ];
 
