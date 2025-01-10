@@ -32,16 +32,8 @@ function App() {
 
           <Route path="/create-classroom" element={<Create_Classroom />} />
 
-          <Route
-            path="/class/:id"
-            element={
-              userType === 'teacher' ? (
-                <ClassPage_professor />
-              ) : (
-                <ClassPage_student />
-              )
-            }
-          />
+          <Route path="/class/:id/teacher" element={<ClassPage_professor />} />
+          <Route path="/class/:id/student" element={<ClassPage_student />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

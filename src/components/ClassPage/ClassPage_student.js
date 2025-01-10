@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../Header/Header";
 import axios from "axios";
-import "./ClassPage_professor.css";
+import "./ClassPage_student.css";
 
-const ClassPage_professor = () => {
+const ClassPage_student = () => {
   const { id } = useParams();
   const [classroom, setClassroom] = useState(null);
   const [professor, setProfessor] = useState(null);
   const [error, setError] = useState(null);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const fetchClassroom = async () => {
@@ -25,6 +26,7 @@ const ClassPage_professor = () => {
     };
 
     fetchClassroom();
+    fetchTokenData();
   }, [id]);
 
   const fetchProfessor = async (professorId) => {
@@ -38,6 +40,29 @@ const ClassPage_professor = () => {
     }
   };
 
+  const fetchTokenData = () => {
+    const token = localStorage.getItem('jwtToken');
+    console.log("Retrieved token:", token);
+
+    if (token) {
+        axios
+            .get('http://localhost:8080/api/students/token/validate', {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            .then((response) => {
+                console.log("Response:", response);
+
+                if (response.status === 200 && response.data) {
+                    setUserData(response.data);
+                    console.log("User data:", response.data);
+                }
+            })
+            .catch((error) => {
+                console.error("Token validation failed:", error);
+            });
+    }
+  }
+
   if (error) {
     return <div className="error-message">{error}</div>;
   }
@@ -49,7 +74,7 @@ const ClassPage_professor = () => {
   return (
     <div className="class-page-container">
       <div className="dashboard-header">
-        <Header userData={{ firstName: professor.firstName }} /> 
+        <Header userData={{ firstName: userData.firstName }} /> 
       </div>
 
       <div className="class-info-box">
@@ -81,4 +106,4 @@ const ClassPage_professor = () => {
   );
 };
 
-export default ClassPage_professor;
+export default ClassPage_student;

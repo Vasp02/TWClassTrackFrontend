@@ -32,6 +32,7 @@ const Login = () => {
             });
 
             if (response.status === 200 && response.data.token) {
+                console.log("response",response);
                 const token = response.data.token;
                 localStorage.setItem('jwtToken', token);
                 console.log('Token saved:', localStorage.getItem('jwtToken'));
