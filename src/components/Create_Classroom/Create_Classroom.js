@@ -37,7 +37,7 @@ function Create_Classroom() {
 
             if (response.status === 201) {
                 setSuccessMessage("Classroom created successfully!");
-                setTimeout(() => navigate('/dashboard-professor'), 1500); // Redirect after success
+                setTimeout(() => navigate('/dashboard/professor'), 1500); // Redirect after success
             } else {
                 setErrorMessage("Failed to create classroom. Please try again.");
             }
