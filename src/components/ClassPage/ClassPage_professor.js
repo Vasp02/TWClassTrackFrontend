@@ -7,6 +7,8 @@ const ClassPage_professor = () => {
   const { id } = useParams();
   const [classroom, setClassroom] = useState(null);
   const [error, setError] = useState(null);
+  const [showInputBox, setShowInputBox] = useState(false);
+  const [inputCode, setInputCode] = useState("");
 
   useEffect(() => {
     const fetchClassroom = async () => {
@@ -22,6 +24,14 @@ const ClassPage_professor = () => {
 
     fetchClassroom();
   }, [id]);
+
+  const handleAddStudentClick = () => {
+    setShowInputBox(!showInputBox); // Toggle input box visibility
+  };
+
+  const handleInputChange = (e) => {
+    setInputCode(e.target.value);
+  };
 
   if (error) {
     return <div className="error-message">{error}</div>;
@@ -44,6 +54,24 @@ const ClassPage_professor = () => {
           </p>
         </div>
       </div>
+
+      {/* Add Student Button */}
+      <button className="add-student-button" onClick={handleAddStudentClick}>
+        Add student via code
+      </button>
+
+      {/* Textbox for inputting the code */}
+      {showInputBox && (
+        <div className="input-box-container">
+          <input
+            type="text"
+            className="input-box"
+            value={inputCode}
+            onChange={handleInputChange}
+            placeholder="Enter invite code"
+          />
+        </div>
+      )}
 
       <div className="class-details">
         <p><strong>Classroom ID:</strong> {classroom.id}</p>

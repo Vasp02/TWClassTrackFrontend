@@ -1,0 +1,132 @@
+/* Calendar container */
+.calendar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.nav-button {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.nav-button:hover {
+  background: #45a049;
+}
+
+/* Calendar grid */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.day-label {
+  font-weight: bold;
+  text-align: center;
+  padding: 10px 0;
+  color: #555;
+  background-color: #f9f9f9;
+}
+
+.calendar-day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f4f4f4;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.calendar-day:hover {
+  background-color: #ddd;
+}
+
+.calendar-day.today {
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+}
+
+.calendar-day.selected {
+  background-color: #ffa726;
+  color: white;
+  font-weight: bold;
+}
+
+/* Empty days for alignment */
+.empty-day {
+  visibility: hidden;
+}
+
+/* Calendar actions */
+.calendar-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.attendance-button {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.attendance-button:hover {
+  background: #45a049;
+}
+
+.present-button {
+  background: #28a745;
+}
+
+.absent-button {
+  background: #dc3545;
+}
+
+.grade-button {
+  background: #007bff;
+}
+
+.present-button:hover {
+  background: #218838;
+}
+
+.absent-button:hover {
+  background: #c82333;
+}
+
+.grade-button:hover {
+  background: #0056b3;
+}

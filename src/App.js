@@ -11,7 +11,8 @@ import ClassPage_professor from './components/ClassPage/ClassPage_professor';
 import ClassPage_student from './components/ClassPage/ClassPage_student';
 import Create_Classroom from './components/Create_Classroom/Create_Classroom';
 import NotFoundPage from './components/NotFoundPage/NotFoundPage';
-
+import Calendar_professor from "./components/Calendar/Calendar_professor";
+import Calendar from "./components/Calendar/Calendar";
 
 function App() {
   const userType = localStorage.getItem('userType');
@@ -44,6 +45,8 @@ function App() {
           />
 
           <Route path="*" element={<NotFoundPage />} />
+          <Route path="/calendar_professor" element={<Calendar_professor />} />
+          <Route path="/calendar" element={<Calendar />} />
         </Routes>
       </div>
     </Router>

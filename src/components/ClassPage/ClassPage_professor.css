@@ -81,3 +81,59 @@
     margin: 50px;
     color: #e74c3c;
 }
+
+.add-student-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 20px; /* Adds space between the button and the header */
+    align-self: flex-end; /* Aligns the button to the right within the container */
+    margin-right: 10%; /* Adds space from the right edge */
+    position: relative; /* Keeps it positioned properly within the class-page-container */
+}
+
+
+.add-student-button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+/* Container for invite code input */
+.add-student-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Input field styling */
+.invite-code-input {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 250px;
+    margin-bottom: 10px;
+}
+
+/* Submit button for invite code */
+.submit-invite-code-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.submit-invite-code-button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
