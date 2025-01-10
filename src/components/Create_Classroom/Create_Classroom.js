@@ -19,15 +19,6 @@ function Create_Classroom() {
             setErrorMessage("You are not authorized to perform this action.");
             return;
         }
-
-        // const classroomData = {
-        //     name: className,
-        //     professor: 0, // Placeholder, backend assigns this
-        //     studentList: [], // Empty student list initially
-        //     inviteCode: "" // Backend generates this
-        // };
-
-        //console.log("classroomData", classroomData);
         console.log("classname", className);
         try {
             const response = await axios.post(
@@ -44,7 +35,7 @@ function Create_Classroom() {
 
             if (response.status === 201) {
                 setSuccessMessage("Classroom created successfully!");
-                setTimeout(() => navigate('/dashboard-professor'), 1500); // Redirect after success
+                setTimeout(() => navigate('/dashboard/professor'), 1500); 
             } else {
                 setErrorMessage("Failed to create classroom. Please try again.");
             }

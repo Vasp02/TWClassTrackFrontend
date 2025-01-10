@@ -1,51 +1,85 @@
+/* Main container for the component */
 .create-classroom-container {
-    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:100vw;
+    height: 100vh; /* Full height of the viewport */
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
 }
 
+/* Content wrapper */
 .create-classroom-content {
-    max-width: 600px;
-    margin: 0 auto;
+    width: 30vw;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
+/* Form groups */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    text-align: left; /* Align labels and inputs to the left */
 }
 
+/* Label styles */
 label {
+    text-align: center;
+    padding: 15px;
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     font-weight: bold;
+    color: #333;
 }
 
+/* Input field styles */
 input {
     width: 100%;
     padding: 10px;
-    margin-top: 5px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
+    box-sizing: border-box; /* Prevent horizontal overflow */
+    outline: none;
+    transition: border-color 0.3s;
 }
 
+input:focus {
+    border-color: #4caf50; /* Highlight input when focused */
+}
+
+/* Button styles */
 .create-button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
+    width: 100%;
+    padding: 12px 0;
+    background-color: #4caf50;
     color: white;
     border: none;
     border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .create-button:hover {
     background-color: #45a049;
 }
 
+/* Success message */
 .success-message {
     color: green;
+    font-size: 0.95rem;
     margin-top: 15px;
 }
 
+/* Error message */
 .error-message {
     color: red;
+    font-size: 0.95rem;
     margin-top: 15px;
 }

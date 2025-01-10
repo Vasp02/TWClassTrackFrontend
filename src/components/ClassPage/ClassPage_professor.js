@@ -1,97 +1,62 @@
-import React, { useState } from 'react';
-import './ClassPage_professor.css';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import "./ClassPage_professor.css";
 
-function ClassPage() {
-    // Example hardcoded student grades
-    const [grades, setGrades] = useState([
-        { student: 'Alice Johnson', assignment: 'Homework 1', grade: 'A' },
-        { student: 'Bob Smith', assignment: 'Homework 1', grade: 'B+' },
-        { student: 'Charlie Brown', assignment: 'Homework 1', grade: 'A-' },
-    ]);
+const ClassPage_professor = () => {
+  const { id } = useParams();
+  const [classroom, setClassroom] = useState(null);
+  const [error, setError] = useState(null);
 
-    // Example hardcoded student attendance
-    const [attendance, setAttendance] = useState([
-        { student: 'Alice Johnson', present: true },
-        { student: 'Bob Smith', present: false },
-        { student: 'Charlie Brown', present: true },
-    ]);
-
-    // Update a grade for a specific student
-    const handleGradeChange = (index, value) => {
-        const updatedGrades = [...grades];
-        updatedGrades[index].grade = value;
-        setGrades(updatedGrades);
+  useEffect(() => {
+    const fetchClassroom = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/classrooms/${id}`
+        );
+        setClassroom(response.data);
+      } catch (err) {
+        setError("Classroom not found or an error occurred.");
+      }
     };
 
-    // Update attendance for a specific student
-    const handleAttendanceChange = (index) => {
-        const updatedAttendance = [...attendance];
-        updatedAttendance[index].present = !updatedAttendance[index].present;
-        setAttendance(updatedAttendance);
-    };
+    fetchClassroom();
+  }, [id]);
 
-    // Save changes (mock function)
-    const handleSaveChanges = () => {
-        console.log('Grades saved:', grades);
-        console.log('Attendance saved:', attendance);
-        alert('Changes saved successfully!');
-    };
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
 
-    return (
-        <div className="class-page-container">
-            <h2 className="class-page-title">Class Details</h2>
-            <div className="table-container">
-                {/* Grades Section */}
-                <div className="table-section">
-                    <h3>Grades</h3>
-                    <div className="table-header table-row">
-                        <div>Student</div>
-                        <div>Assignment</div>
-                        <div>Grade</div>
-                    </div>
-                    {grades.map((grade, index) => (
-                        <div className="table-row" key={index}>
-                            <div>{grade.student}</div>
-                            <div>{grade.assignment}</div>
-                            <div>
-                                <input
-                                    type="text"
-                                    value={grade.grade}
-                                    onChange={(e) => handleGradeChange(index, e.target.value)}
-                                />
-                            </div>
-                        </div>
-                    ))}
-                </div>
+  if (!classroom) {
+    return <div className="loading-message">Loading...</div>;
+  }
 
-                {/* Attendance Section */}
-                <div className="table-section">
-                    <h3>Attendance</h3>
-                    <div className="table-header table-row">
-                        <div>Student</div>
-                        <div>Present</div>
-                    </div>
-                    {attendance.map((entry, index) => (
-                        <div className="table-row" key={index}>
-                            <div>{entry.student}</div>
-                            <div>
-                                <input
-                                    type="checkbox"
-                                    checked={entry.present}
-                                    onChange={() => handleAttendanceChange(index)}
-                                />
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Save Changes Button */}
-                <div className="save-button-container">
-                    <button onClick={handleSaveChanges}>Save Changes</button>
-                </div>
-            </div>
+  return (
+    <div className="class-page-container">
+      <div className="classroom-header">
+        <div className="classroom-header-content">
+          <h1 className="classroom-title">{classroom.name}</h1>
+          <p className="classroom-professor">
+            <strong>Professor:</strong> {classroom.professor.name}
+          </p>
+          <p className="classroom-email">
+            <strong>Email:</strong> {classroom.professor.email}
+          </p>
         </div>
-    );
-}
+      </div>
 
-export default ClassPage;
+      <div className="class-details">
+        <p><strong>Classroom ID:</strong> {classroom.id}</p>
+        <p><strong>Invite Code:</strong> {classroom.inviteCode}</p>
+        <h2 className="student-list-title">Enrolled Students:</h2>
+        <ul className="student-list">
+          {classroom.studentList.map((student) => (
+            <li key={student.id} className="student-item">{student.name}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default ClassPage_professor;
