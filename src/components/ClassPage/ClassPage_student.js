@@ -1,77 +1,84 @@
-import React from 'react';
-import './ClassPage_student.css';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import Header from "../Header/Header";
+import axios from "axios";
+import "./ClassPage_professor.css";
 
-function ClassPage() {
-    // Example data
-    const grades = [
-        { subject: 'Homework 1', grade: 'A', weight: '10%' },
-        { subject: 'Test 1', grade: 'B+', weight: '20%' },
-        { subject: 'Test 2', grade: 'A-', weight: '25%' },
-    ];
+const ClassPage_professor = () => {
+  const { id } = useParams();
+  const [classroom, setClassroom] = useState(null);
+  const [professor, setProfessor] = useState(null);
+  const [error, setError] = useState(null);
 
-    const attendance = [
-        { date: '2024-10-01', status: 'Present' },
-        { date: '2024-10-03', status: 'Absent' },
-    ];  
+  useEffect(() => {
+    const fetchClassroom = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/classrooms/${id}`
+        );
+        setClassroom(response.data);
 
-    const messages = [
-        { date: '2024-10-05', message: 'Nice work!' },
-        { date: '2024-10-10', message: 'Good job!' },
-    ];
+        fetchProfessor(response.data.professor.id);
+      } catch (err) {
+        setError("Classroom not found or an error occurred.");
+      }
+    };
 
-    return (
-        <div className="class-page-container">
-            <h2 className="class-page-title">Class Details</h2>
-            <div className="table-container">
-                {/* Grades Section */}
-                <div className="table-section">
-                    <h3>Grades</h3>
-                    <div className="table-header table-row">
-                        <div>Assignment</div>
-                        <div>Grade</div>
-                        <div>Weight</div>
-                    </div>
-                    {grades.map((grade, index) => (
-                        <div className="table-row" key={index}>
-                            <div>{grade.subject}</div>
-                            <div>{grade.grade}</div>
-                            <div>{grade.weight}</div>
-                        </div>
-                    ))}
-                </div>
+    fetchClassroom();
+  }, [id]);
 
-                {/* Attendance Section */}
-                <div className="table-section">
-                    <h3>Attendance</h3>
-                    <div className="table-header table-row">
-                        <div>Date</div>
-                        <div>Status</div>
-                    </div>
-                    {attendance.map((entry, index) => (
-                        <div className="table-row" key={index}>
-                            <div>{entry.date}</div>
-                            <div>{entry.status}</div>
-                        </div>
-                    ))}
-                </div>
+  const fetchProfessor = async (professorId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/professors/${professorId}`
+      );
+      setProfessor(response.data);
+    } catch (err) {
+      console.error("Error fetching professor details:", err);
+    }
+  };
 
-                {/* Messages Section */}
-                <div className="table-section">
-                    <h3>Messages</h3>
-                    <div className="table-header table-row">
-                        <div>Date</div>
-                        <div>Message</div>
-                    </div>
-                    {messages.map((msg, index) => (
-                        <div className="table-row" key={index}>
-                            <div>{msg.date}</div>
-                            <div>{msg.message}</div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </div>
-    );
-}
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
 
-export default ClassPage;
+  if (!classroom || !professor) {
+    return <div className="loading-message">Loading...</div>;
+  }
+
+  return (
+    <div className="class-page-container">
+      <div className="dashboard-header">
+        <Header userData={{ firstName: professor.firstName }} /> 
+      </div>
+
+      <div className="class-info-box">
+        <h2 className="class-info-title">{classroom.name}</h2>
+        <p className="class-info-teacher">Professor: {professor.firstName} {professor.lastName}</p>
+      </div>
+
+      <div className="class-table-container">
+        <table className="class-data-table">
+          <thead>
+            <tr>
+              <th>Students Enrolled</th>
+              <th>Grades</th>
+              <th>Attendance</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[...Array(5)].map((_, index) => (
+              <tr key={index}>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+export default ClassPage_professor;

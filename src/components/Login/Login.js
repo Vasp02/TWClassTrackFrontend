@@ -7,7 +7,7 @@ import { baseUrl } from '../../config/axiosConfig.js';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [userType, setUserType] = useState(''); // User type state
+    const [userType, setUserType] = useState('');
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -33,7 +33,7 @@ const Login = () => {
 
             if (response.status === 200 && response.data.token) {
                 const token = response.data.token;
-                localStorage.setItem('jwtToken', token); // Store token
+                localStorage.setItem('jwtToken', token);
                 console.log('Token saved:', localStorage.getItem('jwtToken'));
                 alert('Login successful');
                 if (userType === 'teacher') {
@@ -41,7 +41,7 @@ const Login = () => {
                 } else if (userType === 'student') {
                     navigate('/dashboard/student');
                 } else if (userType === 'parent') {
-                    navigate('/dashboard-parent'); // Placeholder for parent dashboard
+                    navigate('/dashboard-parent');
                 }
             } else {
                 alert('Login failed. Please check your credentials.');
@@ -56,7 +56,6 @@ const Login = () => {
         <div className="form-container">
             <h2>Log in</h2>
             <form onSubmit={handleLogin}>
-                {/* Radio buttons for selecting user type */}
                 <div className="radio-group">
                     <label>
                         <input

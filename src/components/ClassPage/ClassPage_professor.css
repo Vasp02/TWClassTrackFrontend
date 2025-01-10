@@ -1,87 +1,83 @@
-/* Main container, covering full width with padding */
 .class-page-container {
-    padding: 20px;
     width: 100vw;
     height: 100vh;
-    box-sizing: border-box;
-    background-color: #f0f4f8;
-    font-family: Arial, sans-serif;
-}
-
-/* Title styling */
-.class-page-title {
-    font-size: 2em;
-    color: #4CAF50;
-    font-weight: 600;
-    text-align: left;
-    margin-bottom: 20px;
-    padding: 0 10px;
-}
-
-/* Table container for organized grid layout */
-.table-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Three sections for Grades, Attendance, Messages */
-    gap: 20px;
-    width: 100%;
-}
-
-/* Section styling for each table column */
-.table-section {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 20px;
     display: flex;
     flex-direction: column;
-    overflow: auto;
+    align-items: center;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
 }
 
-/* Section header */
-.table-section h3 {
-    font-size: 1.4em;
-    color: #333;
-    margin-bottom: 15px;
-    font-weight: 500;
-    border-bottom: 2px solid #4CAF50;
-    padding-bottom: 5px;
-}
-
-/* Table row style for organized data */
-.table-row {
-    display: flex;
-    justify-content: space-between;
+.dashboard-header {
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #4caf50;
+    z-index: 100    ;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
     padding: 10px 0;
-    border-bottom: 1px solid #ddd;
 }
 
-.table-row:last-child {
-    border-bottom: none;
+.class-info-box {
+    margin-top: 80px; 
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #4caf50;
+    color: white;
+    width: 80%; 
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    text-align: left;
 }
 
-/* Column styling within each table row */
-.table-row div {
+.class-info-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.class-info-teacher {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.class-table-container {
+    margin: 20px auto;
+    width: 60%;
+}
+
+.class-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    text-align: center; 
+}
+
+.class-data-table th, 
+.class-data-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+.class-data-table th {
+    background-color: #4caf50;
+    color: white;
+    font-weight: bold;
+}
+
+.class-data-table td {
     font-size: 1em;
-    color: #555;
-    width: 33%;
+    color: #333;
 }
 
-/* Header row with bold styling */
-.table-header {
-    font-weight: 600;
-    color: #4CAF50;
-    padding: 10px 0;
+.error-message,
+.loading-message {
+    font-size: 1.2em;
+    text-align: center;
+    margin: 50px;
+    color: #e74c3c;
 }
-
-/* Responsive adjustments for smaller screens */
-@media (max-width: 1024px) {
-    .table-container {
-        grid-template-columns: 1fr; /* Stack sections on smaller screens */
-        gap: 15px;
-    }
-
-    .table-section {
-        padding: 15px;
-    }
-}
-

@@ -19,33 +19,35 @@ const Header = ({ userData }) => {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem('jwtToken'); // Clear the token
+        localStorage.removeItem('jwtToken');
         navigate('/login');
     };
 
-    // Determine role and display name
+    // Display name logic
     const displayName = (() => {
-    const userType = userData?.usertype?.toLowerCase(); // Normalize userType to lowercase
-    const name = userData?.firstName || 'Unknown';
+        const userType = userData?.usertype?.toLowerCase();
+        const name = userData?.firstName || 'Unknown';
 
-    if (userType === 'teacher') {
-        return `Professor: ${name}`;
-    } else if (userType === 'student') {
-        return `Student: ${name}`;
-    } else {
-        return name || 'User';
-    }
-})();
-
+        if (userType === 'teacher') {
+            return `Professor: ${name}`;
+        } else if (userType === 'student') {
+            return `Student: ${name}`;
+        } else {
+            return name || 'User';
+        }
+    })();
 
     return (
         <header className="dashboard-header">
-            <div className="logo" onClick={() => navigate('/dashboard')}>
+            {/* Adjusted logo */}
+            <div className="logo" onClick={() => navigate('/dashboard/professor')}>
                 ClassTrack
             </div>
+
+            {/* Profile Section */}
             <div className="profile-section">
                 <div className="profile-name" onClick={toggleDropdown}>
-                    {displayName} {/* Display user's role and first name */}
+                    {displayName}
                 </div>
                 {dropdownOpen && (
                     <div className="dropdown-menu">
