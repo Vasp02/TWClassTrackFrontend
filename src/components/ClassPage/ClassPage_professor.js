@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./ClassPage_professor.css";
+import { useNavigate } from 'react-router-dom';
 
 const ClassPage_professor = () => {
   const { id } = useParams();
@@ -10,6 +11,7 @@ const ClassPage_professor = () => {
   const [inviteCode, setInviteCode] = useState("");
   const [successMessage, setSuccessMessage] = useState(null);
   const [addError, setAddError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchClassroom = async () => {
@@ -80,6 +82,10 @@ const ClassPage_professor = () => {
     }
   };
 
+  const handleManageStudent = (studentID) => {
+    navigate(`/class/${classroom.id}/manage/${studentID}`);
+  }
+
   if (error) {
     return <div className="error-message">{error}</div>;
   }
@@ -111,9 +117,15 @@ const ClassPage_professor = () => {
           {classroom.studentList.map((student) => (
             <li key={student.id} className="student-item">
               <h4>{student.firstName} {student.lastName}</h4>
-              <button onClick={() => handleStudentRemove(student.id)}>
-                Remove
-              </button>
+              <div className="buttons-container-div">
+              <button className="manage-button" onClick={() => handleManageStudent(student.id)}>
+                  Manage
+                </button>
+                <button onClick={() => handleStudentRemove(student.id)}>
+                  Remove
+                </button>
+              </div>
+              
             </li>
           ))}
         </ul>

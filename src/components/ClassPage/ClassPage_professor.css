@@ -9,6 +9,16 @@
     padding: 20px;
 }
 
+.buttons-container-div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.buttons-container-div .manage-button {
+    background-color: #2ecc71 !important; /* Add !important to override other styles */
+}
 .classroom-header {
     width: 100%;
     background-color: #4caf50;
