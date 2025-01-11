@@ -6,7 +6,17 @@ import "./ClassPage_student.css";
 
 const ClassPage_student = () => {
   const { id } = useParams();
-  const [classroom, setClassroom] = useState(null);
+  const [classroom, setClassroom] = useState({
+    name: "Math 101",
+    attendance: [
+      { date: "2023-12-01", status: "Present" },
+      { date: "2023-12-02", status: "Absent" },
+    ],
+    grades: [
+      { assignment: "Quiz 1", grade: "A" },
+      { assignment: "Project", grade: "B+" },
+    ],
+  });
   const [professor, setProfessor] = useState(null);
   const [error, setError] = useState(null);
   const [userData, setUserData] = useState(null);
@@ -17,7 +27,11 @@ const ClassPage_student = () => {
         const response = await axios.get(
           `http://localhost:8080/api/classrooms/${id}`
         );
-        setClassroom(response.data);
+        setClassroom({
+          name: response.data.name || "Unnamed Class",
+          attendance: response.data.attendance || classroom.attendance,
+          grades: response.data.grades || classroom.grades,
+        });
 
         fetchProfessor(response.data.professor.id);
       } catch (err) {
@@ -41,27 +55,22 @@ const ClassPage_student = () => {
   };
 
   const fetchTokenData = () => {
-    const token = localStorage.getItem('jwtToken');
-    console.log("Retrieved token:", token);
-
+    const token = localStorage.getItem("jwtToken");
     if (token) {
-        axios
-            .get('http://localhost:8080/api/students/token/validate', {
-                headers: { Authorization: `Bearer ${token}` },
-            })
-            .then((response) => {
-                console.log("Response:", response);
-
-                if (response.status === 200 && response.data) {
-                    setUserData(response.data);
-                    console.log("User data:", response.data);
-                }
-            })
-            .catch((error) => {
-                console.error("Token validation failed:", error);
-            });
+      axios
+        .get("http://localhost:8080/api/students/token/validate", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          if (response.status === 200 && response.data) {
+            setUserData(response.data);
+          }
+        })
+        .catch((error) => {
+          console.error("Token validation failed:", error);
+        });
     }
-  }
+  };
 
   if (error) {
     return <div className="error-message">{error}</div>;
@@ -73,34 +82,42 @@ const ClassPage_student = () => {
 
   return (
     <div className="class-page-container">
-      <div className="dashboard-header">
-        <Header userData={{ firstName: userData.firstName }} /> 
-      </div>
-
+      {/* Fixed header layout */}
+      <Header userData={{ firstName: userData?.firstName }} />
+      
       <div className="class-info-box">
         <h2 className="class-info-title">{classroom.name}</h2>
-        <p className="class-info-teacher">Professor: {professor.firstName} {professor.lastName}</p>
+        <p className="class-info-teacher">
+          Professor: {professor ? professor.name : "Loading..."}
+        </p>
       </div>
 
-      <div className="class-table-container">
-        <table className="class-data-table">
-          <thead>
-            <tr>
-              <th>Students Enrolled</th>
-              <th>Grades</th>
-              <th>Attendance</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[...Array(5)].map((_, index) => (
-              <tr key={index}>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-              </tr>
+      <div className="list-container">
+        {/* Attendance List */}
+        <div className="attendance-list">
+          <h3 className="list-title">Attendance</h3>
+          <ul className="list">
+            {classroom.attendance.map((entry, index) => (
+              <li key={index} className="list-item">
+                <h4>{entry.date}</h4>
+                <span>{entry.status}</span>
+              </li>
             ))}
-          </tbody>
-        </table>
+          </ul>
+        </div>
+
+        {/* Grades List */}
+        <div className="grades-list">
+          <h3 className="list-title">Grades</h3>
+          <ul className="list">
+            {classroom.grades.map((grade, index) => (
+              <li key={index} className="list-item">
+                <h4>{grade.assignment}</h4>
+                <span>{grade.grade}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
