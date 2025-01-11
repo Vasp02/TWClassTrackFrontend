@@ -13,10 +13,13 @@ const ClassPage_professor = () => {
 
   useEffect(() => {
     const fetchClassroom = async () => {
+
       try {
         const response = await axios.get(
           `http://localhost:8080/api/classrooms/${id}`
+          
         );
+        console.log("Response data", response.data);
         setClassroom(response.data);
       } catch (err) {
         setError("Classroom not found or an error occurred.");
@@ -91,7 +94,8 @@ const ClassPage_professor = () => {
         <div className="classroom-header-content">
           <h1 className="classroom-title">{classroom.name}</h1>
           <p className="classroom-professor">
-            <strong>Professor:</strong> {classroom.professor.name}
+            <strong>Professor:</strong> {classroom.professor.firstName}
+
           </p>
           <p className="classroom-email">
             <strong>Email:</strong> {classroom.professor.email}

@@ -88,7 +88,7 @@ const ClassPage_student = () => {
       <div className="class-info-box">
         <h2 className="class-info-title">{classroom.name}</h2>
         <p className="class-info-teacher">
-          Professor: {professor ? professor.name : "Loading..."}
+          Professor: {professor ? professor.firstName : "Loading..."}
         </p>
       </div>
 
