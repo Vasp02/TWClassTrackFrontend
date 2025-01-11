@@ -1,0 +1,102 @@
+/* Container */
+.student-calendar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header */
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .nav-button {
+    background: #4caf50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+  }
+  
+  .nav-button:hover {
+    background: #45a049;
+  }
+  
+  /* Calendar grid */
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .day-label {
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 0;
+    color: #555;
+    background-color: #f9f9f9;
+  }
+  
+  .calendar-day {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+    cursor: default;
+    transition: background-color 0.3s ease;
+    position: relative;
+  }
+  
+  .calendar-day.today {
+    background-color: #4caf50;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .calendar-day.present {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .calendar-day.absent {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .calendar-day.grade {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .grade-badge {
+    margin-top: 5px;
+    background: #ffffff;
+    color: #007bff;
+    border-radius: 50%;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  .empty-day {
+    visibility: hidden;
+  }
+  
