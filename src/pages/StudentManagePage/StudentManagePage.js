@@ -12,7 +12,12 @@ const StudentManagePage = () => {
   const [attendanceList, setAttendanceList] = useState([]);
   const [gradesList, setGradesList] = useState([]);
   const [newDate, setNewDate] = useState(null);
-  const [newGrade, setNewGrade] = useState({ title: "", grade: "" });
+  const [newGrade, setNewGrade] = useState({
+    title: "",
+    grade: "",
+    studentId: sid, // Use `sid` from URL params
+    classroomId: cid, // Use `cid` from URL params
+});
 
   useEffect(() => {
     fetchStudentData();
@@ -53,7 +58,7 @@ const StudentManagePage = () => {
   const fetchGradesData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/grades/${cid}/${sid}`
+        `http://localhost:8080/api/assignments/student/${sid}/classroom/${cid}`
       );
       setGradesList(response.data);
     } catch (error) {
@@ -104,33 +109,66 @@ const StudentManagePage = () => {
   };
 
   const handleAddGrade = () => {
-    if (!newGrade.title || !newGrade.grade) return;
+    console.log("Initial newGrade:", newGrade);
 
-    const newEntry = { title: newGrade.title, grade: parseFloat(newGrade.grade) };
+    if (!newGrade.grade || !newGrade.studentId || !newGrade.classroomId) {
+        console.error("Missing required fields:", newGrade);
+        return;
+    }
 
-    setGradesList([...gradesList, newEntry]); // Update UI
-    setNewGrade({ title: "", grade: "" }); // Clear inputs
+    const newEntry = {
+        name: newGrade.title,
+        date: "2025-01-15",
+        grade: parseFloat(newGrade.grade),
+        studentId: newGrade.studentId,
+        classroomId: newGrade.classroomId,
+    };
+    console.log("assignment", newEntry);
+
+    const token = localStorage.getItem("jwtToken");
 
     axios
-      .post(`http://localhost:8080/api/grades/${cid}/${sid}`, newEntry)
-      .catch((error) => {
-        console.error("Error adding grade:", error);
-      });
-  };
+        .post(`http://localhost:8080/api/assignments`, newEntry, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then((response) => {
+            console.log("Grade added successfully:", response.data);
+            setNewGrade({
+                title: "",
+                grade: "",
+                studentId: sid, // Reset studentId from the params
+                classroomId: cid, // Reset classroomId from the params
+            });
+            fetchGradesData();
+        })
+        .catch((error) => {
+            console.error("Error adding grade:", error);
+        });
+};
 
-  const handleRemoveGrade = (index) => {
-    const entryToRemove = gradesList[index];
 
-    setGradesList(gradesList.filter((_, i) => i !== index)); // Update UI
 
+  const handleRemoveGrade = (id) => {
+    //const entryToRemove = gradesList[index];
+
+    //setGradesList(gradesList.filter((_, i) => i !== index)); // Update UI
+    const token = localStorage.getItem("jwtToken");
     axios
-      .delete(
-        `http://localhost:8080/api/grades/${cid}/${sid}`,
-        { data: { title: entryToRemove.title } }
-      )
-      .catch((error) => {
-        console.error("Error removing grade:", error);
-      });
+  .delete(`http://localhost:8080/api/assignments/${id}`, {
+    headers: {
+        Authorization: `Bearer ${token}`,
+    },
+  })
+  .then((response) => {
+    console.log("Assignment deleted successfully");
+    fetchGradesData();
+  })
+  .catch((error) => {
+    console.error("Error deleting assignment:", error);
+  });
+      
   };
 
   const handleGradeInputChange = (e) => {
@@ -220,11 +258,11 @@ const StudentManagePage = () => {
         <ul className="grades-list">
           {gradesList.map((entry, index) => (
             <li key={index} className="grades-item">
-              <span>{entry.title}</span>
+              <span>{entry.name}</span>
               <span>{entry.grade}</span>
               <button
                 className="remove-button"
-                onClick={() => handleRemoveGrade(index)}
+                onClick={() => handleRemoveGrade(entry.id)}
               >
                 Remove
               </button>
