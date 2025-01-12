@@ -1,84 +1,79 @@
+/* Container Styles */
 .class-page-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f4f4f4;
+    background: linear-gradient(to bottom, #eafaf1, #f4f4f4);
     min-height: 100vh;
-    padding: 20px;
     margin: 0;
-  }
-  
-  .dashboard-header {
-    width: 100%;
-    position: sticky; /* Keep the header at the top */
-    top: 0;
-    z-index: 100;
-    background-color: #4caf50;
-    color: white;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 0 0 8px 8px;
-  }
-  
-  .class-info-box {
-    width: 80%;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Class Info Box */
+.class-info-box {
+    width: 60%;
     max-width: 800px;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-  }
-  
-  .class-info-title {
-    font-size: 1.8rem;
-    color: #333;
+    background: #4caf50;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-bottom: 30px;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.class-info-title {
+    font-size: 2.2rem;
+    color: #ffffff;
     margin-bottom: 10px;
-  }
-  
-  .class-info-teacher {
+    text-align: center;
+}
+
+.class-info-teacher {
     font-size: 1.2rem;
-    color: #666;
-  }
-  
-  .error-message {
+    color: #dfe6e9;
+    text-align: center;
+}
+
+/* Error and Loading Messages */
+.error-message, .loading-message {
     color: #e74c3c;
     margin-top: 20px;
     font-size: 1rem;
-  }
-  
-  .loading-message {
-    color: #666;
-    font-size: 1.2rem;
-    margin-top: 20px;
     text-align: center;
-  }
-  
-  /* List Container */
-  .list-container {
+    font-weight: bold;
+}
+
+.loading-message {
+    color: #555;
+    font-style: italic;
+}
+
+/* List Container */
+.list-container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    width: 80%;
+    gap: 25px;
+    width: 90%;
     max-width: 800px;
     margin-top: 20px;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Rest of the styles remain unchanged */
-  
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.4s ease-out;
+}
 
-/* List Titles */
+/* List Title */
 .list-title {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 10px;
-    border-bottom: 2px solid #4caf50;
-    padding-bottom: 5px;
+    font-size: 1.6rem;
+    color: #2d3436;
+    text-align: center;
+    margin-bottom: 15px;
+    border-bottom: 3px solid #4caf50;
+    padding-bottom: 8px;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 /* General List Styles */
@@ -92,28 +87,131 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 15px;
+    padding: 15px 20px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
-    border-radius: 6px;
-    margin-bottom: 10px;
+    border-radius: 8px;
+    margin-bottom: 12px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.list-item:hover {
-    background-color: #f1f1f1;
-}
-
-/* Specific List Item Styling */
 .list-item h4 {
     margin: 0;
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #333;
+    font-weight: bold;
+    margin-right: 20px;
+    line-height: 1.5;
 }
 
 .list-item span {
     font-size: 1rem;
-    color: #666;
+    color: #555;
     font-weight: bold;
+    line-height: 1.5;
+}
+
+.list-item:hover {
+    background-color: #f1f1f1;
+    transform: translateY(-3px);
+}
+
+/* No Data Message */
+.no-data-message {
+    text-align: center;
+    font-size: 1rem;
+    color: #888;
+    font-style: italic;
+    margin-top: 10px;
+}
+
+/* Header Styling */
+header.dashboard-header {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: #4caf50;
+    color: white;
+    padding: 20px 30px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    border-radius: 0;
+    font-size: 1.2rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .class-info-box,
+    .list-container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .list-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .list-item h4, .list-item span {
+        font-size: 0.95rem;
+    }
+
+    header.dashboard-header {
+        font-size: 1rem;
+        padding: 15px 20px;
+    }
+}
+
+/* 🟢 Overall Results */
+.overall-results {
+    margin-top: 30px;
+    width: 90%;
+    max-width: 800px;
+    background-color: #f1f8e9;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.overall-results h3 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.result-box {
+    display: flex;
+    justify-content: space-around;
+}
+
+.result-box p {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #4caf50;
 }

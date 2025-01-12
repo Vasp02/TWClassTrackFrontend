@@ -10,14 +10,6 @@ const Header = ({ userData }) => {
         setDropdownOpen(!dropdownOpen);
     };
 
-    const handleProfileClick = () => {
-        navigate('/profile');
-    };
-
-    const handleEditProfileClick = () => {
-        navigate('/edit-profile');
-    };
-
     const handleLogout = () => {
         localStorage.removeItem('jwtToken');
         navigate('/login');
@@ -51,8 +43,6 @@ const Header = ({ userData }) => {
                 </div>
                 {dropdownOpen && (
                     <div className="dropdown-menu">
-                        <button onClick={handleProfileClick}>View Profile</button>
-                        <button onClick={handleEditProfileClick}>Edit Profile</button>
                         <button onClick={handleLogout}>Log Out</button>
                     </div>
                 )}

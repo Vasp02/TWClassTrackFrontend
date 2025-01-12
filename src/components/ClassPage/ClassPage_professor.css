@@ -1,201 +1,238 @@
+/* General Page Container */
 .class-page-container {
-    width: 100vw;
-    height: 100vh;
+    width: 210.5vh;              /* Full width for the page */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f4f4f4;
+    background: linear-gradient(to bottom, #eafaf1, #f4f4f4);
+    padding-top: 70px;        /* Space for the header */
     margin: 0;
-    padding: 20px;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
 }
 
-.buttons-container-div{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-.buttons-container-div .manage-button {
-    background-color: #2ecc71 !important; /* Add !important to override other styles */
-}
-.classroom-header {
+/* Header Styling */
+header.dashboard-header {
     width: 100%;
+    position: sticky;
+    top: 0;
     background-color: #4caf50;
     color: white;
-    padding: 15px;
+    padding: 20px 30px;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    font-size: 1.3rem;
 }
 
-.classroom-header-content {
-    max-width: 800px;
-    margin: auto;
+/* Classroom Header (Matches Student Page) */
+.classroom-header {
+    width: 60%;
+    max-width: 1000px;
+    background-color: #4caf50;
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.4s ease-in-out;
 }
 
 .classroom-title {
-    font-size: 2rem;
-    margin-bottom: 5px;
+    font-size: 2.4rem;
+    color: #ffffff;
+    margin-bottom: 10px;
 }
 
 .classroom-professor,
 .classroom-email {
-    font-size: 1rem;
+    font-size: 1.2rem;
+    color: #dfe6e9;
 }
 
+/* Class Details Box (Unified with Student Page) */
 .class-details {
-    width: 80%;
-    max-width: 800px;
-    margin-top: 20px;
-    padding: 20px;
-    background: white;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    width: 90%;
+    max-width: 1000px;
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
 }
 
+/* Student List Title */
 .student-list-title {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 15px;
+    border-bottom: 3px solid #4caf50;
+    padding-bottom: 8px;
+    text-transform: uppercase;
 }
 
+/* Student List */
 .student-list {
+    width: 100%;
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.student-list .student-item {
+.student-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 15px;
-    margin-bottom: 10px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
     background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.student-item:hover {
+    background-color: #f1f1f1;
+    transform: translateY(-3px);
 }
 
 .student-item h4 {
     margin: 0;
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #333;
+    font-weight: bold;
 }
 
-.student-item button {
+/* Manage & Remove Buttons */
+.buttons-container-div {
+    display: flex;
+    gap: 15px;
+}
+
+.manage-button,
+.remove-button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    font-size: 0.95rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.manage-button {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.manage-button:hover {
+    background-color: #27ae60;
+    transform: scale(1.05);
+}
+
+.remove-button {
     background-color: #e74c3c;
     color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.3s ease;
 }
 
-.student-item button:hover {
+.remove-button:hover {
     background-color: #c0392b;
+    transform: scale(1.05);
 }
 
+/* Add Student Panel */
 .add-student-panel {
-    margin-top: 20px;
-    width: 80%;
-    max-width: 800px;
-    padding: 20px;
-    background: white;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    width: 90%;
+    max-width: 1000px;
+    padding: 25px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.add-student-panel input {
-    width: calc(100% - 110px);
+.add-student-panel h2 {
+    font-size: 1.6rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.invite-code-input {
+    width: 75%;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
     font-size: 1rem;
+    margin-right: 10px;
 }
 
-.add-student-panel button {
+.add-student-button {
     background-color: #4caf50;
     color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
+    padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.add-student-panel button:hover {
+.add-student-button:hover {
     background-color: #388e3c;
+    transform: scale(1.05);
 }
 
+/* Error and Success Messages */
 .success-message {
     color: #2ecc71;
     margin-top: 10px;
     font-size: 0.9rem;
+    text-align: center;
 }
 
 .error-message {
     color: #e74c3c;
     margin-top: 10px;
     font-size: 0.9rem;
+    text-align: center;
 }
 
-.add-student-button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-top: 20px; /* Adds space between the button and the header */
-    align-self: flex-end; /* Aligns the button to the right within the container */
-    margin-right: 10%; /* Adds space from the right edge */
-    position: relative; /* Keeps it positioned properly within the class-page-container */
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+    .classroom-header,
+    .class-details,
+    .add-student-panel {
+        width: 95%;
+        padding: 20px;
+    }
 
-.add-student-button:hover {
-    background-color: #45a049;
-    transform: scale(1.05);
-}
+    .student-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 
-/* Container for invite code input */
-.add-student-container {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+    .buttons-container-div {
+        flex-direction: column;
+        width: 100%;
+    }
 
-/* Input field styling */
-.invite-code-input {
-    padding: 10px;
-    font-size: 1em;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 250px;
-    margin-bottom: 10px;
-}
+    .invite-code-input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
 
-/* Submit button for invite code */
-.submit-invite-code-button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.submit-invite-code-button:hover {
-    background-color: #45a049;
-    transform: scale(1.05);
+    .add-student-button {
+        width: 100%;
+    }
 }

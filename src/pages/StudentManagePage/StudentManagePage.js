@@ -4,6 +4,7 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./StudentManagePage.css";
+import Header from "../../components/Header/Header";
 
 const StudentManagePage = () => {
   const { cid, sid } = useParams();
@@ -73,6 +74,21 @@ const StudentManagePage = () => {
       console.error("Error fetching grades data:", error);
     }
   };
+
+  // 🟢 Calculate Average Grade
+  const calculateAverageGrade = () => {
+    if (gradesList.length === 0) return 0;
+    const total = gradesList.reduce((sum, grade) => sum + grade.grade, 0);
+    return (total / gradesList.length).toFixed(2);
+  };
+
+  // 🟢 Calculate Attendance Percentage
+  const calculateAttendancePercentage = () => {
+    if (attendanceList.length === 0) return "0%";
+    const presentCount = attendanceList.filter((entry) => entry.status === "present").length;
+    return ((presentCount / attendanceList.length) * 100).toFixed(2) + "%";
+  };
+
 
   const handleAddAttendance = () => {
     if (!newDate) return;
@@ -211,99 +227,115 @@ const StudentManagePage = () => {
     return <p>Loading...</p>;
   }
   return (
-    <div className="student-manage-container">
-      <div className="student-header">
-        <h2>Manage Student</h2>
-        <h3>
-          Student: {studentData.firstName} {studentData.lastName}
-        </h3>
-        <p>Classroom: {classroomData.name}</p>
-      </div>
-
-      {/* Attendance Manager */}
-      <div className="attendance-manager">
-        <h3>Attendance</h3>
-        <div className="attendance-header">
-          <DatePicker
-            selected={newDate}
-            onChange={(date) => setNewDate(date)}
-            placeholderText="Select a date"
-            className="date-picker"
-          />
-          <select
-            value={newAttendanceStatus}
-            onChange={(e) => setNewAttendanceStatus(e.target.value)}
-            className="status-select"
-          >
-            <option value="present">Present</option>
-            <option value="absent">Absent</option>
-          </select>
-          <button className="add-date-button" onClick={handleAddAttendance}>
-            +
-          </button>
+    <>
+      {/* ✅ Header is now correctly placed at the top */}
+      <Header userData={{ firstName: "Professor" }} />
+  
+      <div className="student-manage-container">
+        <div className="student-header">
+          <h2>Manage Student</h2>
+          <h3>
+            Student: {studentData.firstName} {studentData.lastName}
+          </h3>
+          <p>Classroom: {classroomData.name}</p>
         </div>
-        <ul className="attendance-list">
-          {attendanceList.map((entry, index) => (
-            <li key={index} className="attendance-item">
-              <span>{entry.date}</span>
-              <span>{entry.present ? "Present" : "Absent"}</span> {/* Conditional rendering */}
-              <button
-                className="remove-button"
-                onClick={() => handleRemoveAttendance(entry.id)}
-              >
-                Remove
-              </button>
-            </li>
-          ))}
-      </ul>
-      </div>
-
-      {/* Grades Manager */}
-      <div className="grades-manager">
-        <h3>Grades</h3>
-        <div className="grades-header">
-          <input
-            type="text"
-            placeholder="Enter title"
-            value={newGrade.title}
-            onChange={(e) => setNewGrade({ ...newGrade, title: e.target.value })}
-            className="grade-title-input"
-          />
-          <input
-            type="text"
-            placeholder="Enter grade"
-            value={newGrade.grade}
-            onChange={handleGradeInputChange}
-            className="grade-input"
-          />
-          <DatePicker
-            selected={newGradeDate}
-            onChange={(date) => setNewGradeDate(date)}
-            placeholderText="Select a date"
-            className="date-picker"
-          />
-          <button className="add-grade-button" onClick={handleAddGrade}>
-            Confirm
-          </button>
+  
+        {/* Attendance Manager */}
+        <div className="attendance-manager">
+          <h3>Attendance</h3>
+          <div className="attendance-header">
+            <DatePicker
+              selected={newDate}
+              onChange={(date) => setNewDate(date)}
+              placeholderText="Select a date"
+              className="date-picker"
+            />
+            <select
+              value={newAttendanceStatus}
+              onChange={(e) => setNewAttendanceStatus(e.target.value)}
+              className="status-select"
+            >
+              <option value="present">Present</option>
+              <option value="absent">Absent</option>
+            </select>
+            <button className="add-date-button" onClick={handleAddAttendance}>
+              +
+            </button>
+          </div>
+          <ul className="attendance-list">
+            {attendanceList.map((entry, index) => (
+              <li key={index} className="attendance-item">
+                <span>{entry.date}</span>
+                <span>{entry.status === "present" ? "Present" : "Absent"}</span>
+                <button
+                  className="remove-button"
+                  onClick={() => handleRemoveAttendance(entry.id)}
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul className="grades-list">
-          {gradesList.map((entry, index) => (
-            <li key={index} className="grades-item">
-              <span>{entry.name}</span>
-              <span>{entry.date}</span>
-              <span>{entry.grade}</span>
-              <button
-                className="remove-button"
-                onClick={() => handleRemoveGrade(entry.id)}
-              >
-                Remove
-              </button>
-            </li>
-          ))}
-        </ul>
+  
+        {/* Grades Manager */}
+        <div className="grades-manager">
+          <h3>Grades</h3>
+          <div className="grades-header">
+            <input
+              type="text"
+              placeholder="Enter title"
+              value={newGrade.title}
+              onChange={(e) => setNewGrade({ ...newGrade, title: e.target.value })}
+              className="grade-title-input"
+            />
+            <input
+              type="text"
+              placeholder="Enter grade"
+              value={newGrade.grade}
+              onChange={handleGradeInputChange}
+              className="grade-input"
+            />
+            <DatePicker
+              selected={newGradeDate}
+              onChange={(date) => setNewGradeDate(date)}
+              placeholderText="Select a date"
+              className="date-picker"
+            />
+            <button className="add-grade-button" onClick={handleAddGrade}>
+              Confirm
+            </button>
+          </div>
+          <ul className="grades-list">
+            {gradesList.map((entry, index) => (
+              <li key={index} className="grades-item">
+                <span>{entry.name}</span>
+                <span>{entry.date}</span>
+                <span>{entry.grade}</span>
+                <button
+                  className="remove-button"
+                  onClick={() => handleRemoveGrade(entry.id)}
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* 🟢 NEW SECTION: Overall Results */}
+        <div className="overall-results">
+          <h3>Overall Results</h3>
+          <div className="result-box">
+            <p><strong>Average Grade:</strong> {calculateAverageGrade()}</p>
+            <p><strong>Attendance Percentage:</strong> {calculateAttendancePercentage()}</p>
+          </div>
+        </div>
+
       </div>
-    </div>
+    </>
   );
+  
 };
 
 export default StudentManagePage;

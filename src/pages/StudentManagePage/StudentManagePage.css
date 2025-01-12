@@ -1,17 +1,15 @@
 .student-manage-container {
-    width: 50%; 
-    height: auto; 
-    margin: 0 auto; 
-    position: absolute; 
-    top: 50%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
+    width: 60%;
+    margin: 50px auto 0 auto; /* ✅ Added margin-top for spacing from header */
     font-family: Arial, sans-serif;
     background-color: #fff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
-    padding: 40px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 40px;
     border-radius: 12px;
+    position: relative; /* ✅ Removed absolute positioning */
+    transform: none;    /* ✅ Removed transform */
 }
+
 
 .student-header {
     text-align: center;
@@ -104,4 +102,64 @@
 .attendance-header > .add-date-button,
 .grades-header > .add-grade-button {
     align-self: center;
+}
+
+/* Ensure the header spans the full width */
+header.dashboard-header {
+    width: 210.5vh;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: #4caf50;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 🟢 Centered Overall Results Section */
+.overall-results {
+    width: 60%;                /* Matches other sections' width */
+    margin: 40px auto 0 auto;  /* Centered with auto margins */
+    padding: 20px;
+    background-color: #f1f8e9;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.overall-results h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #2d3436;
+}
+
+.result-box {
+    display: flex;
+    justify-content: space-evenly;  /* Evenly distribute items */
+    padding: 10px;
+    gap: 20px;                      /* Add space between items */
+}
+
+.result-box p {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #4caf50;
+    background-color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 🟢 Smooth fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Header from "../Header/Header";  // Added Header import
 import "./ClassPage_professor.css";
-import { useNavigate } from 'react-router-dom';
 
 const ClassPage_professor = () => {
   const { id } = useParams();
@@ -15,13 +15,8 @@ const ClassPage_professor = () => {
 
   useEffect(() => {
     const fetchClassroom = async () => {
-
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/classrooms/${id}`
-          
-        );
-        console.log("Response data", response.data);
+        const response = await axios.get(`http://localhost:8080/api/classrooms/${id}`);
         setClassroom(response.data);
       } catch (err) {
         setError("Classroom not found or an error occurred.");
@@ -36,23 +31,19 @@ const ClassPage_professor = () => {
       setSuccessMessage(null);
       setAddError(null);
       const token = localStorage.getItem("jwtToken");
+
       await axios.post(
         `http://localhost:8080/api/classrooms/invite/${id}/${inviteCode}`,
         {},
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setSuccessMessage("Student added successfully.");
       setInviteCode("");
 
-      const updatedClassroom = await axios.get(
-        `http://localhost:8080/api/classrooms/${id}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const updatedClassroom = await axios.get(`http://localhost:8080/api/classrooms/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setClassroom(updatedClassroom.data);
     } catch (err) {
       setAddError(err.response?.data?.message || "Failed to add student.");
@@ -62,19 +53,13 @@ const ClassPage_professor = () => {
   const handleStudentRemove = async (studentId) => {
     try {
       const token = localStorage.getItem("jwtToken");
-      await axios.delete(
-        `http://localhost:8080/api/classrooms/remove/${id}/${studentId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      await axios.delete(`http://localhost:8080/api/classrooms/remove/${id}/${studentId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-      const updatedClassroom = await axios.get(
-        `http://localhost:8080/api/classrooms/${id}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const updatedClassroom = await axios.get(`http://localhost:8080/api/classrooms/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setClassroom(updatedClassroom.data);
       setSuccessMessage("Student removed successfully.");
     } catch (err) {
@@ -84,7 +69,7 @@ const ClassPage_professor = () => {
 
   const handleManageStudent = (studentID) => {
     navigate(`/class/${classroom.id}/manage/${studentID}`);
-  }
+  };
 
   if (error) {
     return <div className="error-message">{error}</div>;
@@ -96,12 +81,13 @@ const ClassPage_professor = () => {
 
   return (
     <div className="class-page-container">
+      <Header userData={{ firstName: "Professor" }} />  {/* Header added */}
+
       <div className="classroom-header">
         <div className="classroom-header-content">
           <h1 className="classroom-title">{classroom.name}</h1>
           <p className="classroom-professor">
             <strong>Professor:</strong> {classroom.professor.firstName}
-
           </p>
           <p className="classroom-email">
             <strong>Email:</strong> {classroom.professor.email}
@@ -110,22 +96,21 @@ const ClassPage_professor = () => {
       </div>
 
       <div className="class-details">
-        <p><strong>Classroom ID:</strong> {classroom.id}</p>
-        <p><strong>Invite Code:</strong> {classroom.inviteCode}</p>
+        
+
         <h2 className="student-list-title">Enrolled Students:</h2>
         <ul className="student-list">
           {classroom.studentList.map((student) => (
             <li key={student.id} className="student-item">
               <h4>{student.firstName} {student.lastName}</h4>
               <div className="buttons-container-div">
-              <button className="manage-button" onClick={() => handleManageStudent(student.id)}>
+                <button className="manage-button" onClick={() => handleManageStudent(student.id)}>
                   Manage
                 </button>
-                <button onClick={() => handleStudentRemove(student.id)}>
+                <button className="remove-button" onClick={() => handleStudentRemove(student.id)}>
                   Remove
                 </button>
               </div>
-              
             </li>
           ))}
         </ul>
