@@ -1,57 +1,47 @@
 .student-manage-container {
-    width: 90%;
-    margin: 20px auto;
+    width: 50%; 
+    height: auto; 
+    margin: 0 auto; 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
     font-family: Arial, sans-serif;
     background-color: #fff;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    border-radius: 8px;
-  }
-  
-  .student-header {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+    padding: 40px; 
+    border-radius: 12px;
+}
+
+.student-header {
     text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .attendance-manager {
-    margin-top: 20px;
-  }
-  
-  .attendance-header {
+    margin-bottom: 40px; 
+    font-size: 1.5rem; 
+    font-weight: bold;
+}
+
+.attendance-manager, .grades-manager {
+    margin-top: 40px; 
+    text-align: center; /* Center the section content */
+}
+
+.attendance-header, .grades-header {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .add-date-button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .add-date-button:hover {
-    background-color: #388e3c;
-  }
-  
-  .date-picker {
-    margin-left: 10px;
-    padding: 5px;
-    font-size: 1rem;
-  }
-  
-  .attendance-list {
+    align-items: center; /* Align items properly */
+    gap: 15px; 
+    justify-content: center; /* Center content horizontally */
+    margin-bottom: 20px;
+}
+
+.attendance-list, .grades-list {
     list-style-type: none;
     padding: 0;
-    margin: 0;
-  }
-  
-  .attendance-item {
+    margin: 0 auto;
+    max-width: 500px; /* Limit width for better alignment */
+    text-align: left; /* Align items properly */
+}
+
+.attendance-item, .grades-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -60,86 +50,58 @@
     margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 6px;
-  }
-  
-  .status-select {
-    margin: 0 10px;
-    padding: 5px;
-  }
-  
-  .remove-button {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    padding: 5px 10px;
+    width: 100%; /* Ensure consistency */
+}
+
+.date-picker, .grade-title-input, .grade-input {
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
     border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .remove-button:hover {
-    background-color: #c0392b;
-  }
-  
-  .grades-manager {
-    margin-top: 20px;
-  }
-  
-  .grades-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .grade-title-input {
-    margin-right: 10px;
+    flex: 1; /* Make inputs flexible */
+    max-width: 150px; /* Limit max width */
+}
+
+.status-select {
     padding: 5px;
     font-size: 1rem;
-  }
-  
-  .grade-select {
-    margin-right: 10px;
-    padding: 5px;
-    font-size: 1rem;
-  }
-  
-  .add-grade-button {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    flex: 1; /* Make inputs flexible */
+    max-width: 150px; /* Limit max width */
+}
+
+.add-date-button, .add-grade-button {
     background-color: #4caf50;
     color: white;
     border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
+    padding: 8px 12px; 
+    border-radius: 6px;
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.3s ease;
-  }
-  
-  .add-grade-button:hover {
-    background-color: #388e3c;
-  }
-  
-  .grades-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .grades-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #f9f9f9;
-    padding: 10px 15px;
-    margin-bottom: 10px;
-    border: 1
-  }
+}
 
-  .grade-input {
-    margin-right: 10px;
-    padding: 5px;
+.add-date-button:hover, .add-grade-button:hover {
+    background-color: #388e3c;
+}
+
+.remove-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
     font-size: 1rem;
-    width: 100px;
-  }
-  
+    transition: background-color 0.3s ease;
+}
+
+.remove-button:hover {
+    background-color: #c0392b;
+}
+
+.attendance-header > .add-date-button,
+.grades-header > .add-grade-button {
+    align-self: center;
+}

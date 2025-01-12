@@ -12,12 +12,13 @@ const StudentManagePage = () => {
   const [attendanceList, setAttendanceList] = useState([]);
   const [gradesList, setGradesList] = useState([]);
   const [newDate, setNewDate] = useState(null);
+  const [newAttendanceStatus, setNewAttendanceStatus] = useState("present");
   const [newGrade, setNewGrade] = useState({
     title: "",
     grade: "",
-    studentId: sid, // Use `sid` from URL params
-    classroomId: cid, // Use `cid` from URL params
-});
+    studentId: sid,
+    classroomId: cid,
+  });
 
   useEffect(() => {
     fetchStudentData();
@@ -69,10 +70,11 @@ const StudentManagePage = () => {
   const handleAddAttendance = () => {
     if (!newDate) return;
     const formattedDate = newDate.toISOString().split("T")[0];
-    const newEntry = { date: formattedDate, status: "present" };
+    const newEntry = { date: formattedDate, status: newAttendanceStatus };
 
     setAttendanceList([...attendanceList, newEntry]); // Update UI
     setNewDate(null); // Clear the date picker
+    setNewAttendanceStatus("present"); // Reset dropdown
 
     axios
       .post(`http://localhost:8080/api/attendance/${cid}/${sid}`, newEntry)
@@ -109,72 +111,59 @@ const StudentManagePage = () => {
   };
 
   const handleAddGrade = () => {
-    console.log("Initial newGrade:", newGrade);
-
     if (!newGrade.grade || !newGrade.studentId || !newGrade.classroomId) {
-        console.error("Missing required fields:", newGrade);
-        return;
+      console.error("Missing required fields:", newGrade);
+      return;
     }
 
     const newEntry = {
-        name: newGrade.title,
-        date: "2025-01-15",
-        grade: parseFloat(newGrade.grade),
-        studentId: newGrade.studentId,
-        classroomId: newGrade.classroomId,
+      name: newGrade.title,
+      date: "2025-01-15",
+      grade: parseFloat(newGrade.grade),
+      studentId: newGrade.studentId,
+      classroomId: newGrade.classroomId,
     };
-    console.log("assignment", newEntry);
 
     const token = localStorage.getItem("jwtToken");
 
     axios
-        .post(`http://localhost:8080/api/assignments`, newEntry, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-        .then((response) => {
-            console.log("Grade added successfully:", response.data);
-            setNewGrade({
-                title: "",
-                grade: "",
-                studentId: sid, // Reset studentId from the params
-                classroomId: cid, // Reset classroomId from the params
-            });
-            fetchGradesData();
-        })
-        .catch((error) => {
-            console.error("Error adding grade:", error);
+      .post(`http://localhost:8080/api/assignments`, newEntry, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setNewGrade({
+          title: "",
+          grade: "",
+          studentId: sid,
+          classroomId: cid,
         });
-};
-
-
+        fetchGradesData();
+      })
+      .catch((error) => {
+        console.error("Error adding grade:", error);
+      });
+  };
 
   const handleRemoveGrade = (id) => {
-    //const entryToRemove = gradesList[index];
-
-    //setGradesList(gradesList.filter((_, i) => i !== index)); // Update UI
     const token = localStorage.getItem("jwtToken");
     axios
-  .delete(`http://localhost:8080/api/assignments/${id}`, {
-    headers: {
-        Authorization: `Bearer ${token}`,
-    },
-  })
-  .then((response) => {
-    console.log("Assignment deleted successfully");
-    fetchGradesData();
-  })
-  .catch((error) => {
-    console.error("Error deleting assignment:", error);
-  });
-      
+      .delete(`http://localhost:8080/api/assignments/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        fetchGradesData();
+      })
+      .catch((error) => {
+        console.error("Error deleting assignment:", error);
+      });
   };
 
   const handleGradeInputChange = (e) => {
     const value = e.target.value;
-
-    // Validate input: allow only numbers and at most one dot
     if (/^\d*\.?\d*$/.test(value)) {
       setNewGrade({ ...newGrade, grade: value });
     }
@@ -198,16 +187,23 @@ const StudentManagePage = () => {
       <div className="attendance-manager">
         <h3>Attendance</h3>
         <div className="attendance-header">
-          <p>Attendance List</p>
-          <button className="add-date-button" onClick={handleAddAttendance}>
-            +
-          </button>
           <DatePicker
             selected={newDate}
             onChange={(date) => setNewDate(date)}
             placeholderText="Select a date"
             className="date-picker"
           />
+          <select
+            value={newAttendanceStatus}
+            onChange={(e) => setNewAttendanceStatus(e.target.value)}
+            className="status-select"
+          >
+            <option value="present">Present</option>
+            <option value="absent">Absent</option>
+          </select>
+          <button className="add-date-button" onClick={handleAddAttendance}>
+            +
+          </button>
         </div>
         <ul className="attendance-list">
           {attendanceList.map((entry, index) => (
@@ -236,7 +232,6 @@ const StudentManagePage = () => {
       <div className="grades-manager">
         <h3>Grades</h3>
         <div className="grades-header">
-          <p>Grades List</p>
           <input
             type="text"
             placeholder="Enter title"
