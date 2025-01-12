@@ -53,9 +53,11 @@ const StudentManagePage = () => {
   const fetchAttendanceData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/attendance/${cid}/${sid}`
+        `http://localhost:8080/api/attendances/student/${sid}/classroom/${cid}`
       );
+      console.log("attendances",response);
       setAttendanceList(response.data);
+      
     } catch (error) {
       console.error("Error fetching attendance data:", error);
     }
@@ -74,40 +76,57 @@ const StudentManagePage = () => {
 
   const handleAddAttendance = () => {
     if (!newDate) return;
-
+  
     // Adjust the date to ensure proper formatting
     const formattedDate = new Date(
       newDate.getTime() - newDate.getTimezoneOffset() * 60000
     )
       .toISOString()
       .split("T")[0];
-
-    const newEntry = { date: formattedDate, status: newAttendanceStatus };
-
+  
+    const newEntry = { date: formattedDate, status: newAttendanceStatus, studentId: sid, classroomId: cid };
+  
     setAttendanceList((prev) => [...prev, newEntry]); // Update UI
     setNewDate(null);
     setNewAttendanceStatus("present");
-
+    console.log("attendance", newEntry);
+  
+    const token = localStorage.getItem("jwtToken"); // Retrieve the token from local storage
+  
     axios
-      .post(`http://localhost:8080/api/attendance/${cid}/${sid}`, newEntry)
+      .post(`http://localhost:8080/api/attendances`, newEntry, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the Authorization header
+        },
+      })
+      .then((response) => {
+        console.log("Attendance added successfully:", response.data);
+      })
       .catch((error) => {
         console.error("Error adding attendance:", error);
       });
   };
+  
 
-  const handleRemoveAttendance = (index) => {
-    const entryToRemove = attendanceList[index];
+  const handleRemoveAttendance = (id) => {
 
-    // Update state and ensure UI re-renders
-    setAttendanceList((prev) => prev.filter((_, i) => i !== index));
+
+    const token = localStorage.getItem("jwtToken"); // Retrieve the token from local storage
 
     axios
-      .delete(`http://localhost:8080/api/attendance/${cid}/${sid}`, {
-        data: { date: entryToRemove.date },
-      })
-      .catch((error) => {
-        console.error("Error removing attendance:", error);
-      });
+        .delete(`http://localhost:8080/api/attendances/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`, // Include the Authorization header
+            },
+        })
+        .then(() => {
+            console.log("Attendance removed successfully.");
+            // Optionally refresh the attendance list or update the UI
+            setAttendanceList((prev) => prev.filter((entry) => entry.id !== id));
+        })
+        .catch((error) => {
+            console.error("Error removing attendance:", error);
+        });
   };
 
   const handleAttendanceStatusChange = (index, status) => {
@@ -227,23 +246,16 @@ const StudentManagePage = () => {
           {attendanceList.map((entry, index) => (
             <li key={index} className="attendance-item">
               <span>{entry.date}</span>
-              <select
-                value={entry.status}
-                onChange={(e) => handleAttendanceStatusChange(index, e.target.value)}
-                className="status-select"
-              >
-                <option value="present">Present</option>
-                <option value="absent">Absent</option>
-              </select>
+              <span>{entry.present ? "Present" : "Absent"}</span> {/* Conditional rendering */}
               <button
                 className="remove-button"
-                onClick={() => handleRemoveAttendance(index)}
+                onClick={() => handleRemoveAttendance(entry.id)}
               >
                 Remove
               </button>
             </li>
           ))}
-        </ul>
+      </ul>
       </div>
 
       {/* Grades Manager */}
