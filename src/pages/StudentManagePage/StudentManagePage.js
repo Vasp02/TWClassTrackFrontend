@@ -13,6 +13,7 @@ const StudentManagePage = () => {
   const [gradesList, setGradesList] = useState([]);
   const [newDate, setNewDate] = useState(null);
   const [newAttendanceStatus, setNewAttendanceStatus] = useState("present");
+  const [newGradeDate, setNewGradeDate] = useState(null);
   const [newGrade, setNewGrade] = useState({
     title: "",
     grade: "",
@@ -29,7 +30,9 @@ const StudentManagePage = () => {
 
   const fetchStudentData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/students/id/${sid}`);
+      const response = await axios.get(
+        `http://localhost:8080/api/students/id/${sid}`
+      );
       setStudentData(response.data);
     } catch (error) {
       console.error("Error fetching student data:", error);
@@ -38,7 +41,9 @@ const StudentManagePage = () => {
 
   const fetchClassroomData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/classrooms/${cid}`);
+      const response = await axios.get(
+        `http://localhost:8080/api/classrooms/${cid}`
+      );
       setClassroomData(response.data);
     } catch (error) {
       console.error("Error fetching classroom data:", error);
@@ -69,12 +74,19 @@ const StudentManagePage = () => {
 
   const handleAddAttendance = () => {
     if (!newDate) return;
-    const formattedDate = newDate.toISOString().split("T")[0];
+
+    // Adjust the date to ensure proper formatting
+    const formattedDate = new Date(
+      newDate.getTime() - newDate.getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .split("T")[0];
+
     const newEntry = { date: formattedDate, status: newAttendanceStatus };
 
-    setAttendanceList([...attendanceList, newEntry]); // Update UI
-    setNewDate(null); // Clear the date picker
-    setNewAttendanceStatus("present"); // Reset dropdown
+    setAttendanceList((prev) => [...prev, newEntry]); // Update UI
+    setNewDate(null);
+    setNewAttendanceStatus("present");
 
     axios
       .post(`http://localhost:8080/api/attendance/${cid}/${sid}`, newEntry)
@@ -86,13 +98,13 @@ const StudentManagePage = () => {
   const handleRemoveAttendance = (index) => {
     const entryToRemove = attendanceList[index];
 
-    setAttendanceList(attendanceList.filter((_, i) => i !== index)); // Update UI
+    // Update state and ensure UI re-renders
+    setAttendanceList((prev) => prev.filter((_, i) => i !== index));
 
     axios
-      .delete(
-        `http://localhost:8080/api/attendance/${cid}/${sid}`,
-        { data: { date: entryToRemove.date } }
-      )
+      .delete(`http://localhost:8080/api/attendance/${cid}/${sid}`, {
+        data: { date: entryToRemove.date },
+      })
       .catch((error) => {
         console.error("Error removing attendance:", error);
       });
@@ -111,14 +123,20 @@ const StudentManagePage = () => {
   };
 
   const handleAddGrade = () => {
-    if (!newGrade.grade || !newGrade.studentId || !newGrade.classroomId) {
+    if (!newGrade.grade || !newGrade.studentId || !newGrade.classroomId || !newGradeDate) {
       console.error("Missing required fields:", newGrade);
       return;
     }
 
+    const formattedDate = new Date(
+      newGradeDate.getTime() - newGradeDate.getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .split("T")[0];
+
     const newEntry = {
       name: newGrade.title,
-      date: "2025-01-15",
+      date: formattedDate,
       grade: parseFloat(newGrade.grade),
       studentId: newGrade.studentId,
       classroomId: newGrade.classroomId,
@@ -132,14 +150,15 @@ const StudentManagePage = () => {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then((response) => {
+      .then(() => {
         setNewGrade({
           title: "",
           grade: "",
           studentId: sid,
           classroomId: cid,
         });
-        fetchGradesData();
+        setNewGradeDate(null);
+        fetchGradesData(); // Fetch new data
       })
       .catch((error) => {
         console.error("Error adding grade:", error);
@@ -155,7 +174,7 @@ const StudentManagePage = () => {
         },
       })
       .then(() => {
-        fetchGradesData();
+        fetchGradesData(); // Ensure data updates and UI refresh
       })
       .catch((error) => {
         console.error("Error deleting assignment:", error);
@@ -172,7 +191,6 @@ const StudentManagePage = () => {
   if (!studentData || !classroomData) {
     return <p>Loading...</p>;
   }
-
   return (
     <div className="student-manage-container">
       <div className="student-header">
@@ -246,6 +264,12 @@ const StudentManagePage = () => {
             onChange={handleGradeInputChange}
             className="grade-input"
           />
+          <DatePicker
+            selected={newGradeDate}
+            onChange={(date) => setNewGradeDate(date)}
+            placeholderText="Select a date"
+            className="date-picker"
+          />
           <button className="add-grade-button" onClick={handleAddGrade}>
             Confirm
           </button>
@@ -254,6 +278,7 @@ const StudentManagePage = () => {
           {gradesList.map((entry, index) => (
             <li key={index} className="grades-item">
               <span>{entry.name}</span>
+              <span>{entry.date}</span>
               <span>{entry.grade}</span>
               <button
                 className="remove-button"
