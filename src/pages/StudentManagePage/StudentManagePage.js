@@ -114,10 +114,12 @@ const StudentManagePage = () => {
   
     const newEntry = {
       date: formattedDate,
-      status: newAttendanceStatus.toLowerCase() === "present" ? true : false,
+      status: newAttendanceStatus,
       studentId: sid,
       classroomId: cid,
     };
+
+    console.log("new entry",newEntry)
   
     const token = localStorage.getItem("jwtToken");
   
@@ -278,7 +280,7 @@ const StudentManagePage = () => {
   {attendanceList.map((entry, index) => (
     <li key={index} className="attendance-item">
       <span>{entry.date}</span>
-      <span>{entry.status === true || entry.status === "present" ? "Present" : "Absent"}</span>
+      <span>{entry.present === true || entry.present === "present" ? "Present" : "Absent"}</span>
       <button
         className="remove-button"
         onClick={() => handleRemoveAttendance(entry.id)}

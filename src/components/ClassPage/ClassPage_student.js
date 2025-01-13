@@ -6,11 +6,10 @@ import "./ClassPage_student.css";
 
 const ClassPage_student = () => {
   const { id } = useParams();
-  const [classroom, setClassroom] = useState({
-    name: "",
-    attendance: [],
-    grades: [],
-  });
+  const [attendance, setAttendance] = useState([]); //aici tii doar prezentele
+  const [grades, setGrades] = useState([]); //aici tii doar notele
+  const [classroom, setClassroom] = useState(); //aici tii doar datele din clasa
+
   const [professor, setProfessor] = useState(null);
   const [error, setError] = useState(null);
   const [userData, setUserData] = useState(null);
@@ -49,11 +48,12 @@ const ClassPage_student = () => {
       const response = await axios.get(
         `http://localhost:8080/api/attendances/student/${studentId}/classroom/${id}`
       );
+      console.log("response",response.data)
       setClassroom((prev) => ({
         ...prev,
         attendance: response.data.map((entry) => ({
           date: entry.date,
-          status: entry.status === "present" ? "Present" : "Absent",
+          status: entry.present === "present" ? "Present" : "Absent",
         })),
       }));
     } catch (error) {
