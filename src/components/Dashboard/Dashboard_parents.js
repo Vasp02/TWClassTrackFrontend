@@ -23,7 +23,6 @@ function Dashboard_parents() {
                     console.log("Parent validated:", response);
                     if (response.status === 200 && response.data) {
                         setUserData(response.data);
-                        // Fetch student's data here (mocked for now)
                         setStudentData([
                             { className: 'Mathematics', grade: 'A' },
                             { className: 'Physics', grade: 'B+' },

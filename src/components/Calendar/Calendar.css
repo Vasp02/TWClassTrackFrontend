@@ -1,4 +1,4 @@
-/* Container */
+
 .student-calendar-container {
     display: flex;
     flex-direction: column;
@@ -11,7 +11,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
-  /* Header */
   .calendar-header {
     display: flex;
     justify-content: space-between;
@@ -35,7 +34,6 @@
     background: #45a049;
   }
   
-  /* Calendar grid */
   .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);

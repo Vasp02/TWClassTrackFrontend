@@ -48,12 +48,12 @@ const Calendar = () => {
 
     const calendarDays = [];
 
-    // Fill empty days before the start of the month
+  
     for (let i = 0; i < firstDayIndex; i++) {
       calendarDays.push(<div key={`empty-${i}`} className="empty-day"></div>);
     }
 
-    // Fill actual days of the month
+    
     for (let day = 1; day <= daysInMonth; day++) {
       const isToday =
         today.getDate() === day &&

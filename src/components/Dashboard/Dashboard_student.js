@@ -26,17 +26,16 @@ function Dashboard_student() {
                         setUserData(response.data);
                         console.log("User data:", response.data);
 
-                        // Fetch classrooms after successful token validation
                         fetchClassrooms(token);
                     }
                 })
                 .catch((error) => {
                     console.error("Token validation failed:", error);
-                    localStorage.removeItem('jwtToken'); // Clear token
-                    navigate('/login'); // Redirect to login page
+                    localStorage.removeItem('jwtToken');
+                    navigate('/login');
                 });
         } else {
-            navigate('/login'); // Redirect to login if no token
+            navigate('/login');
         }
     }, []);
 
@@ -48,7 +47,6 @@ function Dashboard_student() {
             .then((response) => {
                 console.log("Classrooms API response:", response.data);
                 if (response.status === 200 && Array.isArray(response.data)) {
-                    // ✅ Apply fix: Parse classroom names if stored as JSON
                     const parsedClasses = response.data.map((classItem) => {
                         let parsedName = classItem.name;
                         try {
@@ -65,12 +63,12 @@ function Dashboard_student() {
                     setClasses(parsedClasses);
                 } else {
                     console.error("Unexpected API response format:", response.data);
-                    setClasses([]); // Fallback to empty array
+                    setClasses([]);
                 }
             })
             .catch((error) => {
                 console.error("Error fetching classrooms:", error);
-                setClasses([]); // Handle error by resetting to empty array
+                setClasses([]);
             });
     };
 

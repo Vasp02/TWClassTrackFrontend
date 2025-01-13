@@ -44,14 +44,13 @@ function Dashboard_professor() {
                 console.log("Classrooms API response:", response.data);
                 
                 if (response.status === 200 && Array.isArray(response.data)) {
-                    // ✅ Properly parse the `name` if it's a JSON string
                     const cleanedClasses = response.data.map((classItem) => {
                         let parsedName = classItem.name;
     
                         try {
                             const parsed = JSON.parse(classItem.name);
                             if (parsed && parsed.name) {
-                                parsedName = parsed.name;  // Extract actual name
+                                parsedName = parsed.name;
                             }
                         } catch (e) {
                             console.warn("Failed to parse classroom name, using raw name:", classItem.name);
@@ -105,7 +104,6 @@ function Dashboard_professor() {
                                 onClick={() => handleClassClick(classItem.id)}
                             >
                                 <FaChalkboardTeacher className="class-icon" />
-                                {/* ✅ Fixed name display */}
                                 {classItem.name}
                             </li>
                         ))}
@@ -123,7 +121,6 @@ function Dashboard_professor() {
                             >
                                 <div className="class-card-header" style={{ backgroundColor: "#4caf50" }}>
                                     <h4 className="class-card-title">
-                                        {/* ✅ Fixed name display */}
                                         {classItem.name}
                                     </h4>
                                 </div>

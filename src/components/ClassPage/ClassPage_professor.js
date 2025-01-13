@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Header from "../Header/Header";  // Added Header import
+import Header from "../Header/Header";
 import "./ClassPage_professor.css";
 
 const ClassPage_professor = () => {
@@ -19,19 +19,17 @@ const ClassPage_professor = () => {
         const response = await axios.get(`http://localhost:8080/api/classrooms/${id}`);
         const classroomData = response.data;
   
-        // ✅ Fix: Check if the name is a JSON string and parse it
         let parsedName = classroomData.name;
   
         try {
           const parsed = JSON.parse(classroomData.name);
           if (parsed && parsed.name) {
-            parsedName = parsed.name;  // Extract the actual name
+            parsedName = parsed.name;
           }
         } catch (error) {
           console.warn("Failed to parse classroom name, using raw name:", classroomData.name);
         }
-  
-        // ✅ Set the parsed name back to the classroom data
+
         setClassroom({ ...classroomData, name: parsedName });
   
       } catch (err) {
@@ -98,7 +96,7 @@ const ClassPage_professor = () => {
 
   return (
     <div className="class-page-container">
-      <Header userData={{ firstName: "Professor" }} />  {/* Header added */}
+      <Header userData={{ firstName: "Professor" }} />
 
       <div className="classroom-header">
         <div className="classroom-header-content">

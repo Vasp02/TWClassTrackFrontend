@@ -1,13 +1,13 @@
 .student-manage-container {
     width: 60%;
-    margin: 50px auto 0 auto; /* ✅ Added margin-top for spacing from header */
+    margin: 50px auto 0 auto;
     font-family: Arial, sans-serif;
     background-color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     padding: 40px;
     border-radius: 12px;
-    position: relative; /* ✅ Removed absolute positioning */
-    transform: none;    /* ✅ Removed transform */
+    position: relative;
+    transform: none;
 }
 
 
@@ -20,14 +20,14 @@
 
 .attendance-manager, .grades-manager {
     margin-top: 40px; 
-    text-align: center; /* Center the section content */
+    text-align: center;
 }
 
 .attendance-header, .grades-header {
     display: flex;
-    align-items: center; /* Align items properly */
+    align-items: center;
     gap: 15px; 
-    justify-content: center; /* Center content horizontally */
+    justify-content: center;
     margin-bottom: 20px;
 }
 
@@ -35,8 +35,8 @@
     list-style-type: none;
     padding: 0;
     margin: 0 auto;
-    max-width: 500px; /* Limit width for better alignment */
-    text-align: left; /* Align items properly */
+    max-width: 500px;
+    text-align: left;
 }
 
 .attendance-item, .grades-item {
@@ -48,7 +48,7 @@
     margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 6px;
-    width: 100%; /* Ensure consistency */
+    width: 100%;
 }
 
 .date-picker, .grade-title-input, .grade-input {
@@ -56,8 +56,8 @@
     font-size: 1rem;
     border: 1px solid #ddd;
     border-radius: 4px;
-    flex: 1; /* Make inputs flexible */
-    max-width: 150px; /* Limit max width */
+    flex: 1;
+    max-width: 150px;
 }
 
 .status-select {
@@ -65,8 +65,8 @@
     font-size: 1rem;
     border: 1px solid #ddd;
     border-radius: 4px;
-    flex: 1; /* Make inputs flexible */
-    max-width: 150px; /* Limit max width */
+    flex: 1;
+    max-width: 150px;
 }
 
 .add-date-button, .add-grade-button {
@@ -104,7 +104,6 @@
     align-self: center;
 }
 
-/* Ensure the header spans the full width */
 header.dashboard-header {
     width: 210.5vh;
     position: sticky;
@@ -117,10 +116,9 @@ header.dashboard-header {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* 🟢 Centered Overall Results Section */
 .overall-results {
-    width: 60%;                /* Matches other sections' width */
-    margin: 40px auto 0 auto;  /* Centered with auto margins */
+    width: 60%;
+    margin: 40px auto 0 auto;
     padding: 20px;
     background-color: #f1f8e9;
     border-radius: 8px;
@@ -137,9 +135,9 @@ header.dashboard-header {
 
 .result-box {
     display: flex;
-    justify-content: space-evenly;  /* Evenly distribute items */
+    justify-content: space-evenly;
     padding: 10px;
-    gap: 20px;                      /* Add space between items */
+    gap: 20px;
 }
 
 .result-box p {
@@ -152,7 +150,6 @@ header.dashboard-header {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* 🟢 Smooth fade-in animation */
 @keyframes fadeIn {
     from {
         opacity: 0;

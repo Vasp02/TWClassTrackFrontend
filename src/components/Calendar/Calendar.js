@@ -5,7 +5,6 @@ const Calendar = () => {
   const today = new Date();
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  // Example attendance data (Replace with data from backend once available)
   const attendanceData = {
     "2024-12-01": { status: "Present" },
     "2024-12-02": { status: "Absent" },
@@ -30,12 +29,10 @@ const Calendar = () => {
 
     const calendarDays = [];
 
-    // Fill empty days before the start of the month
     for (let i = 0; i < firstDayIndex; i++) {
       calendarDays.push(<div key={`empty-${i}`} className="empty-day"></div>);
     }
 
-    // Fill actual days of the month
     for (let day = 1; day <= daysInMonth; day++) {
       const dateKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
       const attendanceInfo = attendanceData[dateKey];

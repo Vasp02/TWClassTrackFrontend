@@ -15,7 +15,6 @@ const Header = ({ userData }) => {
         navigate('/login');
     };
 
-    // Display name logic
     const displayName = (() => {
         const userType = userData?.usertype?.toLowerCase();
         const name = userData?.firstName || 'Unknown';
@@ -31,12 +30,10 @@ const Header = ({ userData }) => {
 
     return (
         <header className="dashboard-header">
-            {/* Adjusted logo */}
             <div className="logo" onClick={() => navigate('/dashboard/professor')}>
                 ClassTrack
             </div>
 
-            {/* Profile Section */}
             <div className="profile-section">
                 <div className="profile-name" onClick={toggleDropdown}>
                     {displayName}

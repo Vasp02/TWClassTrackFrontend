@@ -45,7 +45,6 @@ const StudentManagePage = () => {
       const response = await axios.get(`http://localhost:8080/api/classrooms/${cid}`);
       const classroomData = response.data;
   
-      // ✅ Parse the classroom name if it's stored as a JSON string
       let parsedName = classroomData.name;
       try {
         const parsed = JSON.parse(classroomData.name);
@@ -70,7 +69,6 @@ const StudentManagePage = () => {
       );
       console.log("Fetched attendance:", response.data);
   
-      // ✅ Normalize the status to "present" or "absent"
       const normalizedData = response.data.map((entry) => ({
         ...entry,
         status: entry.isPresent ? "present" : "absent",
@@ -94,14 +92,12 @@ const StudentManagePage = () => {
     }
   };
 
-  // 🟢 Calculate Average Grade
   const calculateAverageGrade = () => {
     if (gradesList.length === 0) return 0;
     const total = gradesList.reduce((sum, grade) => sum + grade.grade, 0);
     return (total / gradesList.length).toFixed(2);
   };
 
-  // 🟢 Calculate Attendance Percentage
   const calculateAttendancePercentage = () => {
     if (attendanceList.length === 0) return "0%";
     const presentCount = attendanceList.filter((entry) => entry.status === "present").length;
@@ -112,15 +108,13 @@ const StudentManagePage = () => {
   const handleAddAttendance = () => {
     if (!newDate) return;
   
-    // Format the date correctly
     const formattedDate = new Date(newDate.getTime() - newDate.getTimezoneOffset() * 60000)
       .toISOString()
       .split("T")[0];
   
-    // ✅ Convert the status to a boolean for backend compatibility
     const newEntry = {
       date: formattedDate,
-      status: newAttendanceStatus.toLowerCase() === "present" ? true : false,  // Convert to boolean
+      status: newAttendanceStatus.toLowerCase() === "present" ? true : false,
       studentId: sid,
       classroomId: cid,
     };
@@ -133,7 +127,7 @@ const StudentManagePage = () => {
       })
       .then((response) => {
         console.log("Attendance added successfully:", response.data);
-        fetchAttendanceData();  // Refresh data after adding
+        fetchAttendanceData();
         setNewDate(null);
         setNewAttendanceStatus("present");
       })
@@ -148,17 +142,16 @@ const StudentManagePage = () => {
   const handleRemoveAttendance = (id) => {
 
 
-    const token = localStorage.getItem("jwtToken"); // Retrieve the token from local storage
+    const token = localStorage.getItem("jwtToken");
 
     axios
         .delete(`http://localhost:8080/api/attendances/${id}`, {
             headers: {
-                Authorization: `Bearer ${token}`, // Include the Authorization header
+                Authorization: `Bearer ${token}`,
             },
         })
         .then(() => {
             console.log("Attendance removed successfully.");
-            // Optionally refresh the attendance list or update the UI
             setAttendanceList((prev) => prev.filter((entry) => entry.id !== id));
         })
         .catch((error) => {
@@ -214,7 +207,7 @@ const StudentManagePage = () => {
           classroomId: cid,
         });
         setNewGradeDate(null);
-        fetchGradesData(); // Fetch new data
+        fetchGradesData();
       })
       .catch((error) => {
         console.error("Error adding grade:", error);
@@ -230,7 +223,7 @@ const StudentManagePage = () => {
         },
       })
       .then(() => {
-        fetchGradesData(); // Ensure data updates and UI refresh
+        fetchGradesData();
       })
       .catch((error) => {
         console.error("Error deleting assignment:", error);
@@ -249,7 +242,6 @@ const StudentManagePage = () => {
   }
   return (
     <>
-      {/* ✅ Header is now correctly placed at the top */}
       <Header userData={{ firstName: "Professor" }} />
   
       <div className="student-manage-container">
@@ -261,7 +253,6 @@ const StudentManagePage = () => {
           <p>Classroom: {classroomData.name}</p>
         </div>
   
-        {/* Attendance Manager */}
         <div className="attendance-manager">
           <h3>Attendance</h3>
           <div className="attendance-header">
@@ -302,7 +293,6 @@ const StudentManagePage = () => {
 
         </div>
   
-        {/* Grades Manager */}
         <div className="grades-manager">
           <h3>Grades</h3>
           <div className="grades-header">
@@ -347,7 +337,6 @@ const StudentManagePage = () => {
           </ul>
         </div>
 
-        {/* 🟢 NEW SECTION: Overall Results */}
         <div className="overall-results">
           <h3>Overall Results</h3>
           <div className="result-box">

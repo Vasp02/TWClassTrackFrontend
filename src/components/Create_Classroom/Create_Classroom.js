@@ -48,7 +48,7 @@ function Create_Classroom() {
         try {
             const response = await axios.post(
                 'http://localhost:8080/api/classrooms/create',
-                { name: className },  // ✅ Correct payload format
+                { name: className },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
@@ -67,7 +67,6 @@ function Create_Classroom() {
 
     return (
         <div className="create-classroom-page">
-            {/* ✅ Header moved to the very top */}
             <Header userData={{ firstName: professorData?.firstName }} />
 
             <div className="create-classroom-container">

@@ -1,18 +1,17 @@
-/* General Page Container */
+
 .class-page-container {
-    width: 210.5vh;              /* Full width for the page */
+    width: 210.5vh;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     background: linear-gradient(to bottom, #eafaf1, #f4f4f4);
-    padding-top: 70px;        /* Space for the header */
+    padding-top: 70px;
     margin: 0;
     box-sizing: border-box;
     font-family: 'Arial', sans-serif;
 }
 
-/* Header Styling */
 header.dashboard-header {
     width: 100%;
     position: sticky;
@@ -26,7 +25,6 @@ header.dashboard-header {
     font-size: 1.3rem;
 }
 
-/* Classroom Header (Matches Student Page) */
 .classroom-header {
     width: 60%;
     max-width: 1000px;
@@ -52,7 +50,6 @@ header.dashboard-header {
     color: #dfe6e9;
 }
 
-/* Class Details Box (Unified with Student Page) */
 .class-details {
     width: 90%;
     max-width: 1000px;
@@ -63,7 +60,6 @@ header.dashboard-header {
     margin-bottom: 25px;
 }
 
-/* Student List Title */
 .student-list-title {
     font-size: 1.8rem;
     color: #333;
@@ -73,7 +69,6 @@ header.dashboard-header {
     text-transform: uppercase;
 }
 
-/* Student List */
 .student-list {
     width: 100%;
     list-style: none;
@@ -105,7 +100,6 @@ header.dashboard-header {
     font-weight: bold;
 }
 
-/* Manage & Remove Buttons */
 .buttons-container-div {
     display: flex;
     gap: 15px;
@@ -142,7 +136,6 @@ header.dashboard-header {
     transform: scale(1.05);
 }
 
-/* Add Student Panel */
 .add-student-panel {
     width: 90%;
     max-width: 1000px;
@@ -181,7 +174,6 @@ header.dashboard-header {
     transform: scale(1.05);
 }
 
-/* Error and Success Messages */
 .success-message {
     color: #2ecc71;
     margin-top: 10px;
@@ -196,7 +188,6 @@ header.dashboard-header {
     text-align: center;
 }
 
-/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -208,7 +199,6 @@ header.dashboard-header {
     }
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .classroom-header,
     .class-details,
