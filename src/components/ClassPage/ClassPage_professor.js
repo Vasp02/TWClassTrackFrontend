@@ -17,14 +17,31 @@ const ClassPage_professor = () => {
     const fetchClassroom = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/api/classrooms/${id}`);
-        setClassroom(response.data);
+        const classroomData = response.data;
+  
+        // ✅ Fix: Check if the name is a JSON string and parse it
+        let parsedName = classroomData.name;
+  
+        try {
+          const parsed = JSON.parse(classroomData.name);
+          if (parsed && parsed.name) {
+            parsedName = parsed.name;  // Extract the actual name
+          }
+        } catch (error) {
+          console.warn("Failed to parse classroom name, using raw name:", classroomData.name);
+        }
+  
+        // ✅ Set the parsed name back to the classroom data
+        setClassroom({ ...classroomData, name: parsedName });
+  
       } catch (err) {
         setError("Classroom not found or an error occurred.");
       }
     };
-
+  
     fetchClassroom();
   }, [id]);
+  
 
   const handleAddStudent = async () => {
     try {

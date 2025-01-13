@@ -1,61 +1,77 @@
-/* Main container for the component */
-.create-classroom-container {
+/* 🟢 Full Page Styling */
+.create-classroom-page {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    width:100vw;
-    height: 100vh; /* Full height of the viewport */
     background-color: #f4f4f4;
+    min-height: 100vh;
     margin: 0;
-    padding: 0;
+    padding-top: 0px; /* Space for sticky header */
+    font-family: Arial, sans-serif;
 }
 
-/* Content wrapper */
-.create-classroom-content {
-    width: 30vw;
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+/* 🟢 Header Styling (Sticky at the Very Top) */
+header.dashboard-header {
+    width: 100%;
+    position: fixed; /* ✅ Fixed at the top */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: #4caf50;
+    color: white;
+    padding: 15px 20px;
     text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Form groups */
+/* 🟢 Centered Content */
+.create-classroom-container {
+    width: 40%;
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    margin-top: 100px; /* ✅ Adjusted for fixed header */
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.create-classroom-container h2 {
+    margin-bottom: 30px; /* Pushed the input field lower */
+}
+
+/* 🟢 Form Group */
 .form-group {
     margin-bottom: 20px;
-    text-align: left; /* Align labels and inputs to the left */
+    text-align: left;
 }
 
-/* Label styles */
 label {
-    text-align: center;
-    padding: 15px;
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
     color: #333;
 }
 
-/* Input field styles */
+/* 🟢 Input Field */
 input {
     width: 100%;
     padding: 10px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box; /* Prevent horizontal overflow */
-    outline: none;
+    box-sizing: border-box;
     transition: border-color 0.3s;
 }
 
 input:focus {
-    border-color: #4caf50; /* Highlight input when focused */
+    border-color: #4caf50;
 }
 
-/* Button styles */
+/* 🟢 Submit Button */
 .create-button {
     width: 100%;
-    padding: 12px 0;
+    padding: 12px;
     background-color: #4caf50;
     color: white;
     border: none;
@@ -63,23 +79,34 @@ input:focus {
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;
 }
 
 .create-button:hover {
     background-color: #45a049;
 }
 
-/* Success message */
+/* 🟢 Success and Error Messages */
 .success-message {
     color: green;
     font-size: 0.95rem;
     margin-top: 15px;
 }
 
-/* Error message */
 .error-message {
     color: red;
     font-size: 0.95rem;
     margin-top: 15px;
+}
+
+/* 🟢 Smooth Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

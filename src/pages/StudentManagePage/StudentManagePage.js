@@ -42,27 +42,46 @@ const StudentManagePage = () => {
 
   const fetchClassroomData = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/api/classrooms/${cid}`
-      );
-      setClassroomData(response.data);
+      const response = await axios.get(`http://localhost:8080/api/classrooms/${cid}`);
+      const classroomData = response.data;
+  
+      // ✅ Parse the classroom name if it's stored as a JSON string
+      let parsedName = classroomData.name;
+      try {
+        const parsed = JSON.parse(classroomData.name);
+        if (parsed && parsed.name) {
+          parsedName = parsed.name;
+        }
+      } catch (error) {
+        console.warn("Failed to parse classroom name, using raw name:", classroomData.name);
+      }
+  
+      setClassroomData({ ...classroomData, name: parsedName });
     } catch (error) {
       console.error("Error fetching classroom data:", error);
     }
   };
+  
 
   const fetchAttendanceData = async () => {
     try {
       const response = await axios.get(
         `http://localhost:8080/api/attendances/student/${sid}/classroom/${cid}`
       );
-      console.log("attendances",response);
-      setAttendanceList(response.data);
-      
+      console.log("Fetched attendance:", response.data);
+  
+      // ✅ Normalize the status to "present" or "absent"
+      const normalizedData = response.data.map((entry) => ({
+        ...entry,
+        status: entry.isPresent ? "present" : "absent",
+      }));
+  
+      setAttendanceList(normalizedData);
     } catch (error) {
       console.error("Error fetching attendance data:", error);
     }
   };
+  
 
   const fetchGradesData = async () => {
     try {
@@ -93,35 +112,37 @@ const StudentManagePage = () => {
   const handleAddAttendance = () => {
     if (!newDate) return;
   
-    // Adjust the date to ensure proper formatting
-    const formattedDate = new Date(
-      newDate.getTime() - newDate.getTimezoneOffset() * 60000
-    )
+    // Format the date correctly
+    const formattedDate = new Date(newDate.getTime() - newDate.getTimezoneOffset() * 60000)
       .toISOString()
       .split("T")[0];
   
-    const newEntry = { date: formattedDate, status: newAttendanceStatus, studentId: sid, classroomId: cid };
+    // ✅ Convert the status to a boolean for backend compatibility
+    const newEntry = {
+      date: formattedDate,
+      status: newAttendanceStatus.toLowerCase() === "present" ? true : false,  // Convert to boolean
+      studentId: sid,
+      classroomId: cid,
+    };
   
-    setAttendanceList((prev) => [...prev, newEntry]); // Update UI
-    setNewDate(null);
-    setNewAttendanceStatus("present");
-    console.log("attendance", newEntry);
-  
-    const token = localStorage.getItem("jwtToken"); // Retrieve the token from local storage
+    const token = localStorage.getItem("jwtToken");
   
     axios
       .post(`http://localhost:8080/api/attendances`, newEntry, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Include the Authorization header
-        },
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
         console.log("Attendance added successfully:", response.data);
+        fetchAttendanceData();  // Refresh data after adding
+        setNewDate(null);
+        setNewAttendanceStatus("present");
       })
       .catch((error) => {
         console.error("Error adding attendance:", error);
       });
   };
+  
+  
   
 
   const handleRemoveAttendance = (id) => {
@@ -263,19 +284,22 @@ const StudentManagePage = () => {
             </button>
           </div>
           <ul className="attendance-list">
-            {attendanceList.map((entry, index) => (
-              <li key={index} className="attendance-item">
-                <span>{entry.date}</span>
-                <span>{entry.status === "present" ? "Present" : "Absent"}</span>
-                <button
-                  className="remove-button"
-                  onClick={() => handleRemoveAttendance(entry.id)}
-                >
-                  Remove
-                </button>
-              </li>
-            ))}
-          </ul>
+  {attendanceList.map((entry, index) => (
+    <li key={index} className="attendance-item">
+      <span>{entry.date}</span>
+      <span>{entry.status === true || entry.status === "present" ? "Present" : "Absent"}</span>
+      <button
+        className="remove-button"
+        onClick={() => handleRemoveAttendance(entry.id)}
+      >
+        Remove
+      </button>
+    </li>
+  ))}
+</ul>
+
+
+
         </div>
   
         {/* Grades Manager */}

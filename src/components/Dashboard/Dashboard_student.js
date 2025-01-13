@@ -10,11 +10,10 @@ function Dashboard_student() {
     const [classes, setClasses] = useState([]);
     const navigate = useNavigate();
 
-
     useEffect(() => {
         const token = localStorage.getItem('jwtToken');
         console.log("Retrieved token:", token);
-    
+
         if (token) {
             axios
                 .get('http://localhost:8080/api/students/token/validate', {
@@ -22,12 +21,12 @@ function Dashboard_student() {
                 })
                 .then((response) => {
                     console.log("Response:", response);
-    
+
                     if (response.status === 200 && response.data) {
                         setUserData(response.data);
                         console.log("User data:", response.data);
-    
-                        // Fetch classrooms only after successful token validation
+
+                        // Fetch classrooms after successful token validation
                         fetchClassrooms(token);
                     }
                 })
@@ -39,8 +38,7 @@ function Dashboard_student() {
         } else {
             navigate('/login'); // Redirect to login if no token
         }
-    }, []); // Empty dependency array ensures it runs only once
-    
+    }, []);
 
     const fetchClassrooms = (token) => {
         axios
@@ -50,7 +48,21 @@ function Dashboard_student() {
             .then((response) => {
                 console.log("Classrooms API response:", response.data);
                 if (response.status === 200 && Array.isArray(response.data)) {
-                    setClasses(response.data);
+                    // ✅ Apply fix: Parse classroom names if stored as JSON
+                    const parsedClasses = response.data.map((classItem) => {
+                        let parsedName = classItem.name;
+                        try {
+                            const parsed = JSON.parse(classItem.name);
+                            if (parsed && parsed.name) {
+                                parsedName = parsed.name;
+                            }
+                        } catch (error) {
+                            console.warn("Failed to parse classroom name:", classItem.name);
+                        }
+                        return { ...classItem, name: parsedName };
+                    });
+
+                    setClasses(parsedClasses);
                 } else {
                     console.error("Unexpected API response format:", response.data);
                     setClasses([]); // Fallback to empty array

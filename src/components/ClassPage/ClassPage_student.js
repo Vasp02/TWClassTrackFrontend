@@ -19,12 +19,23 @@ const ClassPage_student = () => {
     try {
       const response = await axios.get(`http://localhost:8080/api/classrooms/${id}`);
       const classroomData = response.data;
-
+  
+      // ✅ Parse the classroom name if it's stored as a JSON string
+      let parsedName = classroomData.name;
+      try {
+        const parsed = JSON.parse(classroomData.name);
+        if (parsed && parsed.name) {
+          parsedName = parsed.name;
+        }
+      } catch (error) {
+        console.warn("Failed to parse classroom name, using raw name:", classroomData.name);
+      }
+  
       setClassroom((prev) => ({
         ...prev,
-        name: classroomData.name || "Unnamed Class",
+        name: parsedName,
       }));
-
+  
       if (classroomData.professor?.id) {
         fetchProfessor(classroomData.professor.id);
       }
@@ -32,6 +43,7 @@ const ClassPage_student = () => {
       setError("Classroom not found or an error occurred.");
     }
   };
+  
 
   const fetchAttendanceData = async (studentId) => {
     try {
