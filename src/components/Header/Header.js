@@ -30,7 +30,7 @@ const Header = ({ userData }) => {
 
     return (
         <header className="dashboard-header">
-            <div className="logo" onClick={() => navigate('/dashboard/professor')}>
+            <div className="logo" >
                 ClassTrack
             </div>
 

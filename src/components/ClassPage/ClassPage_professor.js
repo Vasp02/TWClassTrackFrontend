@@ -8,6 +8,7 @@ const ClassPage_professor = () => {
   const { id } = useParams();
   const [classroom, setClassroom] = useState(null);
   const [error, setError] = useState(null);
+  const [professorData, setProfessorData] = useState(null);
   const [inviteCode, setInviteCode] = useState("");
   const [successMessage, setSuccessMessage] = useState(null);
   const [addError, setAddError] = useState(null);
@@ -20,7 +21,13 @@ const ClassPage_professor = () => {
         const classroomData = response.data;
   
         let parsedName = classroomData.name;
-  
+        
+        if (classroomData.professor?.id) {
+          const professorResponse = await axios.get(`http://localhost:8080/api/professors/${classroomData.professor.id}`);
+          setProfessorData(professorResponse.data);
+        }
+        
+
         try {
           const parsed = JSON.parse(classroomData.name);
           if (parsed && parsed.name) {
@@ -96,7 +103,8 @@ const ClassPage_professor = () => {
 
   return (
     <div className="class-page-container">
-      <Header userData={{ firstName: "Professor" }} />
+      <Header userData={professorData ? { firstName: professorData.firstName } : { firstName: "Professor" }} />
+
 
       <div className="classroom-header">
         <div className="classroom-header-content">

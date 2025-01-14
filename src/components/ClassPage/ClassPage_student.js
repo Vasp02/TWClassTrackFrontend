@@ -6,9 +6,10 @@ import "./ClassPage_student.css";
 
 const ClassPage_student = () => {
   const { id } = useParams();
-  const [attendance, setAttendance] = useState([]); //aici tii doar prezentele
-  const [grades, setGrades] = useState([]); //aici tii doar notele
-  const [classroom, setClassroom] = useState(); //aici tii doar datele din clasa
+
+  const [attendance, setAttendance] = useState([]);
+  const [grades, setGrades] = useState([]);
+  const [classroom, setClassroom] = useState(null);
 
   const [professor, setProfessor] = useState(null);
   const [error, setError] = useState(null);
@@ -18,7 +19,7 @@ const ClassPage_student = () => {
     try {
       const response = await axios.get(`http://localhost:8080/api/classrooms/${id}`);
       const classroomData = response.data;
-  
+
       let parsedName = classroomData.name;
       try {
         const parsed = JSON.parse(classroomData.name);
@@ -28,12 +29,9 @@ const ClassPage_student = () => {
       } catch (error) {
         console.warn("Failed to parse classroom name, using raw name:", classroomData.name);
       }
-  
-      setClassroom((prev) => ({
-        ...prev,
-        name: parsedName,
-      }));
-  
+
+      setClassroom({ name: parsedName });
+
       if (classroomData.professor?.id) {
         fetchProfessor(classroomData.professor.id);
       }
@@ -41,21 +39,18 @@ const ClassPage_student = () => {
       setError("Classroom not found or an error occurred.");
     }
   };
-  
 
   const fetchAttendanceData = async (studentId) => {
     try {
       const response = await axios.get(
         `http://localhost:8080/api/attendances/student/${studentId}/classroom/${id}`
       );
-      console.log("response",response.data)
-      setClassroom((prev) => ({
-        ...prev,
-        attendance: response.data.map((entry) => ({
+      setAttendance(
+        response.data.map((entry) => ({
           date: entry.date,
-          status: entry.present === "present" ? "Present" : "Absent",
-        })),
-      }));
+          status: entry.present ? "Present" : "Absent",
+        }))
+      );
     } catch (error) {
       console.error("Error fetching attendance data:", error);
     }
@@ -66,13 +61,12 @@ const ClassPage_student = () => {
       const response = await axios.get(
         `http://localhost:8080/api/assignments/student/${studentId}/classroom/${id}`
       );
-      setClassroom((prev) => ({
-        ...prev,
-        grades: response.data.map((entry) => ({
+      setGrades(
+        response.data.map((entry) => ({
           assignment: entry.name,
           grade: entry.grade,
-        })),
-      }));
+        }))
+      );
     } catch (error) {
       console.error("Error fetching grades data:", error);
     }
@@ -113,15 +107,15 @@ const ClassPage_student = () => {
   }, [id]);
 
   const calculateAverageGrade = () => {
-    if (classroom.grades.length === 0) return "0";
-    const total = classroom.grades.reduce((sum, grade) => sum + grade.grade, 0);
-    return (total / classroom.grades.length).toFixed(2);
+    if (grades.length === 0) return "0";
+    const total = grades.reduce((sum, grade) => sum + grade.grade, 0);
+    return (total / grades.length).toFixed(2);
   };
 
   const calculateAttendancePercentage = () => {
-    if (classroom.attendance.length === 0) return "0%";
-    const presentCount = classroom.attendance.filter((entry) => entry.status === "Present").length;
-    return ((presentCount / classroom.attendance.length) * 100).toFixed(2) + "%";
+    if (attendance.length === 0) return "0%";
+    const presentCount = attendance.filter((entry) => entry.status === "Present").length;
+    return ((presentCount / attendance.length) * 100).toFixed(2) + "%";
   };
 
   if (error) {
@@ -147,8 +141,8 @@ const ClassPage_student = () => {
         <div className="attendance-list">
           <h3 className="list-title">Attendance</h3>
           <ul className="list">
-            {classroom.attendance.length > 0 ? (
-              classroom.attendance.map((entry, index) => (
+            {attendance.length > 0 ? (
+              attendance.map((entry, index) => (
                 <li key={index} className="list-item">
                   <h4>{entry.date}</h4>
                   <span>{entry.status}</span>
@@ -163,8 +157,8 @@ const ClassPage_student = () => {
         <div className="grades-list">
           <h3 className="list-title">Grades</h3>
           <ul className="list">
-            {classroom.grades.length > 0 ? (
-              classroom.grades.map((grade, index) => (
+            {grades.length > 0 ? (
+              grades.map((grade, index) => (
                 <li key={index} className="list-item">
                   <h4>{grade.assignment}</h4>
                   <span>{grade.grade}</span>

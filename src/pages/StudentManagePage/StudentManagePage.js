@@ -11,6 +11,7 @@ const StudentManagePage = () => {
   const [studentData, setStudentData] = useState(null);
   const [classroomData, setClassroomData] = useState(null);
   const [attendanceList, setAttendanceList] = useState([]);
+  const [professorData, setProfessorData] = useState(null);
   const [gradesList, setGradesList] = useState([]);
   const [newDate, setNewDate] = useState(null);
   const [newAttendanceStatus, setNewAttendanceStatus] = useState("present");
@@ -46,6 +47,12 @@ const StudentManagePage = () => {
       const classroomData = response.data;
   
       let parsedName = classroomData.name;
+
+      if (classroomData.professor?.id) {
+        const professorResponse = await axios.get(`http://localhost:8080/api/professors/${classroomData.professor.id}`);
+        setProfessorData(professorResponse.data);
+      }      
+
       try {
         const parsed = JSON.parse(classroomData.name);
         if (parsed && parsed.name) {
@@ -100,7 +107,8 @@ const StudentManagePage = () => {
 
   const calculateAttendancePercentage = () => {
     if (attendanceList.length === 0) return "0%";
-    const presentCount = attendanceList.filter((entry) => entry.status === "present").length;
+    const presentCount = attendanceList.filter((entry) => entry.isPresent === true || entry.present === true).length;
+
     return ((presentCount / attendanceList.length) * 100).toFixed(2) + "%";
   };
 
@@ -244,7 +252,8 @@ const StudentManagePage = () => {
   }
   return (
     <>
-      <Header userData={{ firstName: "Professor" }} />
+      <Header userData={professorData ? { firstName: professorData.firstName } : { firstName: "Professor" }} />
+
   
       <div className="student-manage-container">
         <div className="student-header">
