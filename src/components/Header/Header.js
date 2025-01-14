@@ -12,7 +12,7 @@ const Header = ({ userData }) => {
 
     const handleLogout = () => {
         localStorage.removeItem('jwtToken');
-        navigate('/login');
+        navigate('/');
     };
 
     const displayName = (() => {
