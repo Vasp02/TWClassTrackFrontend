@@ -83,6 +83,12 @@ function Dashboard_student() {
 
             <div className="content">
                 <aside className="sidebar">
+                    {userData && userData.memberCode && (
+                        <div className="member-code">
+                            <strong>Member Code:</strong> {userData.memberCode}
+                        </div>
+                    )}
+    
                     <h3>My Classes</h3>
                     <ul className="class-list">
                         {classes.map((classItem) => (
