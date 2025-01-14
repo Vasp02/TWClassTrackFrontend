@@ -78,7 +78,7 @@ const Login = () => {
                         />
                         Student
                     </label>
-                    <label>
+                    {/* <label>
                         <input
                             type="radio"
                             name="userType"
@@ -87,7 +87,7 @@ const Login = () => {
                             onChange={(e) => setUserType(e.target.value)}
                         />
                         Parent
-                    </label>
+                    </label> */}
                 </div>
 
                 <label htmlFor="email">Email:</label>

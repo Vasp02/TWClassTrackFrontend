@@ -75,7 +75,7 @@ const SignUp = () => {
                                 />
                                 Student
                             </label>
-                            <label>
+                            {/* <label>
                                 <input 
                                     type="radio" 
                                     name="userType" 
@@ -84,7 +84,7 @@ const SignUp = () => {
                                     onChange={(e) => setUserType(e.target.value)} 
                                 />
                                 Parent
-                            </label>
+                            </label> */}
                         </div>
 
                         <label htmlFor="firstName">First Name:</label>
